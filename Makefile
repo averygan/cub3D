@@ -31,15 +31,19 @@ endif
 #------------------------------------------------------------------------
 
 # cub3d targets
-#init
-# INIT = main.c
-# INIT_SRCS = $(addprefix srcs/init/, $(INIT))
+# init
+INIT = main_yx.c
+INIT_SRCS = $(addprefix srcs/init/, $(INIT))
 
-# GRAPHICS = image_utils.c
-# GRAPHICS_SRCS = $(addprefix srcs/graphics/, $(GRAPHICS))
+GRAPHICS = image_utils.c
+GRAPHICS_SRCS = $(addprefix srcs/graphics/, $(GRAPHICS))
 
-# SRCS = $(INIT_SRCS) $(GRAPHICS_SRCS)
-SRCS = srcs/main.c
+# temp; unsure where to put these yet
+MISC = movement.c exit_utils.c
+MISC_SRCS = $(addprefix srcs/misc/, $(MISC))
+
+SRCS = $(INIT_SRCS) $(GRAPHICS_SRCS) $(MISC_SRCS)
+# SRCS = srcs/main.c
 OBJS = $(SRCS:.c=.o)
 
 #------------------------------------------------------------------------

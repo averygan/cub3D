@@ -31,7 +31,15 @@
 /* define dimensions */
 # define MAP_HEIGHT 6
 # define MAP_WIDTH 6
-# define TILE_SIZE 100
+# define TILE_SIZE 64
+
+enum e_textures
+{
+	no,
+	so,
+	ea,
+	we,
+};
 
 /* structs */
 
@@ -67,7 +75,6 @@ typedef struct s_data
 	double	prev_time; //time of prev frame
 }	t_data;
 
-
 typedef struct s_map
 {
 	char	**map_arr;
@@ -78,6 +85,9 @@ typedef struct s_map
 	char	*we_path;
 	int		*f_color;
 	int		*c_color;
+	t_img	walls[4];
+	unsigned int	floor;
+	unsigned int	ceiling;
 }	t_map;
 
 typedef struct s_game
@@ -92,10 +102,18 @@ typedef struct s_game
 	int		screen_y;
 }	t_game;
 
+extern	char	test_map[MAP_HEIGHT][MAP_WIDTH];
+
 /* graphics */
-void			render_to_window(t_game *game, t_img *image, int x, int y);
-void			get_texture_info(t_img *texture);
-void			new_texture(t_game *game, t_img *texture, char *path);
-unsigned int	get_pixel_pos(t_img *image, int x, int y);
+void	render_to_window(t_game *game, t_img *image, int x, int y);
+void	get_texture_info(t_img *texture);
+void	new_texture(t_game *game, t_img *texture, char *path);
+char	*get_pixel_pos(t_img *image, int x, int y);
+unsigned int	new_rgb(int *colours);
+void	draw_grid(t_game *game, t_img *display);
+
+/* misc */
+int	key_handler(int keysym, t_game *game);
+int	end_game(t_game *game);
 
 #endif
