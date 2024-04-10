@@ -31,8 +31,14 @@ endif
 #------------------------------------------------------------------------
 
 # cub3d targets
-TARGET = main.c
-SRCS = $(addprefix srcs/, $(TARGET))
+#init
+INIT = main_yx.c
+INIT_SRCS = $(addprefix srcs/init/, $(INIT))
+
+GRAPHICS = image_utils.c
+GRAPHICS_SRCS = $(addprefix srcs/graphics/, $(GRAPHICS))
+
+SRCS = $(INIT_SRCS) $(GRAPHICS_SRCS)
 OBJS = $(SRCS:.c=.o)
 
 #------------------------------------------------------------------------
@@ -72,6 +78,7 @@ $(MLX_LIB):
 
 # remove temporary generated files
 clean:
+	@$(RM) $(OBJS)
 	@make clean -s -C $(LIB_DIR)
 	@make clean -s -C $(MLX_DIR)
 
