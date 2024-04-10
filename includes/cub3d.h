@@ -21,6 +21,8 @@
 # include <fcntl.h>
 # include <unistd.h>
 # include <stdbool.h>
+# include "../libft/includes/libft.h"
+# include "../libft/includes/get_next_line.h"
 # include "../mlx_linux/mlx.h"
 
 /* define map components */
@@ -68,15 +70,14 @@ typedef struct s_data
 
 typedef struct s_map
 {
-	char	**grid;
-	// char	*full_line;
+	char	**map_arr;
 	int		fd;
-	// int		rows;
-	// int		columns;
-	// int		start;
-	// int		exit;
-	// bool	exit_found;
-	// bool	valid_path;
+	char	*no_path;
+	char	*so_path;
+	char	*ea_path;
+	char	*we_path;
+	int		*f_color;
+	int		*c_color;
 }	t_map;
 
 typedef struct s_game

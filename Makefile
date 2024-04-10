@@ -32,13 +32,14 @@ endif
 
 # cub3d targets
 #init
-INIT = main_yx.c
-INIT_SRCS = $(addprefix srcs/init/, $(INIT))
+# INIT = main.c
+# INIT_SRCS = $(addprefix srcs/init/, $(INIT))
 
-GRAPHICS = image_utils.c
-GRAPHICS_SRCS = $(addprefix srcs/graphics/, $(GRAPHICS))
+# GRAPHICS = image_utils.c
+# GRAPHICS_SRCS = $(addprefix srcs/graphics/, $(GRAPHICS))
 
-SRCS = $(INIT_SRCS) $(GRAPHICS_SRCS)
+# SRCS = $(INIT_SRCS) $(GRAPHICS_SRCS)
+SRCS = srcs/main.c
 OBJS = $(SRCS:.c=.o)
 
 #------------------------------------------------------------------------
