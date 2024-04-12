@@ -39,7 +39,7 @@ endif
 # GRAPHICS_SRCS = $(addprefix srcs/graphics/, $(GRAPHICS))
 
 # SRCS = $(INIT_SRCS) $(GRAPHICS_SRCS)
-SRCS = srcs/main.c
+SRCS = srcs/main.c srcs/init_map.c srcs/error.c srcs/map_checker.c srcs/map_utils.c srcs/texture_checker.c
 OBJS = $(SRCS:.c=.o)
 
 #------------------------------------------------------------------------

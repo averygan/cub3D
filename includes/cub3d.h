@@ -32,6 +32,17 @@
 # define MAP_HEIGHT 6
 # define MAP_WIDTH 6
 # define TILE_SIZE 100
+# define TEXTURE_COUNT 6
+
+enum e_textures
+{
+	E_NO,
+	E_SO,
+	E_EA,
+	E_WE,
+	E_F,
+	E_C,
+};
 
 /* structs */
 
@@ -67,17 +78,22 @@ typedef struct s_data
 	double	prev_time; //time of prev frame
 }	t_data;
 
-
 typedef struct s_map
 {
+	char	*map;
 	char	**map_arr;
 	int		fd;
-	char	*no_path;
-	char	*so_path;
-	char	*ea_path;
-	char	*we_path;
+	char	*textures[TEXTURE_COUNT];
 	int		*f_color;
 	int		*c_color;
+	int		valid_no;
+	int		valid_so;
+	int		valid_ea;
+	int		valid_we;
+	int		valid_f;
+	int		valid_c;
+	int		map_height;
+	int		map_width;
 }	t_map;
 
 typedef struct s_game
@@ -97,5 +113,21 @@ void			render_to_window(t_game *game, t_img *image, int x, int y);
 void			get_texture_info(t_img *texture);
 void			new_texture(t_game *game, t_img *texture, char *path);
 unsigned int	get_pixel_pos(t_img *image, int x, int y);
+
+/* map initialization */
+int		init_map(t_game *game, char *map_name);
+
+/* map utils */
+char	*strjoin_free(char *s1, char *s2);
+void	free_arr(char **arr);
+void	print_arr(char **arr);
+
+/* map checker */
+int map_checker(t_map *map, char **map_arr);
+
+/* texture checker */
+char	*texture_whitespace(char *texture);
+int		texture_parser(t_map *map, char **split_map);
+int		texture_checker(t_game *game, char **split_map);
 
 #endif
