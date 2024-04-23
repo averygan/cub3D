@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/cub3d.h"
+#include "cub3d.h"
 
 /* returns a pointer to start of path after whitespace */
 char *texture_whitespace(char *texture)

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/cub3d.h"
+#include "cub3d.h"
 
 /* strjoin modified to free s1 and s2, returns a malloc'ed joined string */
 char	*strjoin_free(char *s1, char *s2)
