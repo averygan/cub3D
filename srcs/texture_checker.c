@@ -51,8 +51,8 @@ int texture_parser(t_map *map, char **split_map)
 	if (!map->textures[E_NO] || !map->textures[E_SO] || !map->textures[E_EA] || !map->textures[E_WE] \
 		|| !map->textures[E_F] || !map->textures[E_C])
 		return (printf("error: invalid texture path\n"), -1);
-	printf("printing textures arr\n-----------------------\n");
-	print_arr(map->textures);
+	// printf("printing textures arr\n-----------------------\n");
+	// print_arr(map->textures);
 	return 0;
 }
 

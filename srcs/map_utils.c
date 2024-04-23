@@ -68,7 +68,8 @@ void print_arr(char **arr)
 		return ;
 	while (arr[i])
 	{
-		printf("arr[%i] -> %s\n", i, arr[i]);
+		// printf("arr[%i] -> %s\n", i, arr[i]);
+		printf("%s\n", arr[i]);
 		i++;
 	}
 }

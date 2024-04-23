@@ -39,14 +39,33 @@ int map_syntax_checker(char **map)
 }
 
 /* function to get height and length, dup map arr */
-char **dup_map_arr()
+char **dup_map_arr(char **map_arr)
 {
-	
+	int i;
+	char **dup_arr;
+
+	i = 0;
+	while (map_arr[i])
+		i++;
+	dup_arr = malloc(sizeof(char *) * (i + 1));
+	i = 0;
+	while (map_arr[i])
+	{
+		dup_arr[i] = ft_strdup(map_arr[i]);
+		i++;
+	}
+	dup_arr[i] = NULL;
+	return (dup_arr);
 }
 
+/* runs syntax checker
+duplicates map array from buffer and stores in map.map_arr */
 int map_checker(t_map *map, char **map_arr)
 {
 	(void)map;
-	map_syntax_checker(map_arr);
+	if (map_syntax_checker(map_arr))
+		return (-1);
+	map->map_arr = dup_map_arr(map_arr);
+	print_arr(map->map_arr);
 	return 0;
 }

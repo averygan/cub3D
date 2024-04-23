@@ -18,7 +18,7 @@ int parse_map(t_game *game)
 {
 	char **split_map;
 	split_map = ft_split(game->map.map, '\n');
-	print_arr(split_map);
+	//print_arr(split_map);
 	if (split_map)
 	{
 		texture_checker(game, split_map);
@@ -81,7 +81,7 @@ int init_map(t_game *game, char *map_name)
 	if (full_map)
 	{
 		game->map.map = full_map;
-		printf("printing map\n---------------------------------\n\n%s\n", full_map);
+		// printf("printing map\n---------------------------------\n\n%s\n", full_map);
 		parse_map(game);
 	}
 	return 0;
