@@ -36,6 +36,25 @@ char	*get_pixel_pos(t_img *image, int x, int y)
 	return (image->addr + (y * image->line_size + x * (image->bpp / 8)));
 }
 
+void	init_window(t_game *game)
+{
+	game->display.x = MAP_WIDTH * TILE_SIZE;
+	game->display.y = MAP_HEIGHT * TILE_SIZE;
+	game->win_ptr = mlx_new_window(game->mlx_ptr,
+		game->display.x, game->display.y, "cub3d");
+	game->display.ptr = mlx_new_image(game->mlx_ptr,
+		game->display.x, game->display.y);
+	get_texture_info(&game->display);
+}
+
+void	init_textures(t_game *game, t_map *map)
+{
+	new_texture(game, &map->walls[E_NO], map->textures[E_NO]);
+	new_texture(game, &map->walls[E_SO], map->textures[E_SO]);
+	new_texture(game, &map->walls[E_EA], map->textures[E_EA]);
+	new_texture(game, &map->walls[E_WE], map->textures[E_WE]);
+}
+
 /*
 void	draw_tile(t_game *game, t_img *display, int grid_x, int display_y)
 {

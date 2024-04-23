@@ -1,21 +1,23 @@
-NO ./path_to_the_north_texture
+        	NO ./assets/wolfenstein/xpm/grey_stone.xpm
 
 C 225,30,0
 
 
 
 
-SO ./path_to_the_south_texture
+SO ./assets/wolfenstein/xpm/mossy.xpm
 
 
 
 
 
 
-WE ./path_to_the_west_texture
+WE ./assets/wolfenstein/xpm/color_stone.xpm
 
 
-EA ./path_to_the_east_texture
+EA ./assets/wolfenstein/xpm/color_stone.xpm
+
+
 
 F 220,100,0
 

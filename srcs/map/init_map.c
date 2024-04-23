@@ -21,7 +21,7 @@ int parse_map(t_game *game)
 	//print_arr(split_map);
 	if (split_map)
 	{
-		texture_checker(game, split_map);
+		texture_checker(&game->map, split_map);
 		map_checker(&game->map, &split_map[6]);
 	}
 	return 0;

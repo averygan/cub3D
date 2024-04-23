@@ -130,6 +130,8 @@ void	new_texture(t_game *game, t_img *texture, char *path);
 char	*get_pixel_pos(t_img *image, int x, int y);
 unsigned int	new_rgb(int *colors);
 void	draw_grid(t_game *game, t_img *display);
+void	init_textures(t_game *game, t_map *map);
+void	init_window(t_game *game);
 
 /* misc */
 int	key_handler(int keysym, t_game *game);
@@ -149,6 +151,6 @@ int map_checker(t_map *map, char **map_arr);
 /* texture checker */
 char	*texture_whitespace(char *texture);
 int		texture_parser(t_map *map, char **split_map);
-int		texture_checker(t_game *game, char **split_map);
+int		texture_checker(t_map *map, char **split_map);
 
 #endif

@@ -18,7 +18,10 @@ int main(int argc, char **argv)
 
 	if (argc == 2)
 	{
+		game.mlx_ptr = mlx_init();
 		init_map(&game, argv[1]);
 		init_colors(&game.map);
+		init_textures(&game, &game.map);
+		init_window(&game);
 	}
 }
