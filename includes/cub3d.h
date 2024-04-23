@@ -121,6 +121,8 @@ int		init_map(t_game *game, char *map_name);
 char	*strjoin_free(char *s1, char *s2);
 void	free_arr(char **arr);
 void	print_arr(char **arr);
+char	**dup_map_arr(char **map_arr);
+int		map_valid_syntax(char map_c);
 
 /* map checker */
 int map_checker(t_map *map, char **map_arr);
