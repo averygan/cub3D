@@ -44,9 +44,9 @@ int texture_parser(t_map *map, char **split_map)
 		else if (!ft_strncmp("WE ", split_map[i], 3))
 			map->textures[E_WE] = texture_whitespace(split_map[i]);
 		else if (!ft_strncmp("F ", split_map[i], 2))
-			map->textures[E_F] = texture_whitespace(split_map[i]);
+			map->textures[E_F] = texture_whitespace(split_map[i] + 2);
 		else if (!ft_strncmp("C ", split_map[i], 2))
-			map->textures[E_C] = texture_whitespace(split_map[i]);
+			map->textures[E_C] = texture_whitespace(split_map[i] + 2);
 	}
 	if (!map->textures[E_NO] || !map->textures[E_SO] || !map->textures[E_EA] || !map->textures[E_WE] \
 		|| !map->textures[E_F] || !map->textures[E_C])

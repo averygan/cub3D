@@ -44,6 +44,13 @@ enum e_textures
 	E_C,
 };
 
+enum e_rgb
+{
+	R,
+	G,
+	B,
+};
+
 /* structs */
 
 typedef struct s_img
@@ -85,6 +92,8 @@ typedef struct s_map
 	int		fd;
 	char	*textures[TEXTURE_COUNT];
 	t_img	walls[4];
+	int	*f_color;
+	int	*c_color;
 	unsigned int	floor;
 	unsigned int	ceiling;
 	int		valid_no;
@@ -111,12 +120,15 @@ typedef struct s_game
 
 extern	char	test_map[MAP_HEIGHT][MAP_WIDTH];
 
-/* graphics */
+/* color */
+void	init_colors(t_map *map);
+
+/* image utils */
 void	render_to_window(t_game *game, t_img *image, int x, int y);
 void	get_texture_info(t_img *texture);
 void	new_texture(t_game *game, t_img *texture, char *path);
 char	*get_pixel_pos(t_img *image, int x, int y);
-unsigned int	new_rgb(int *colours);
+unsigned int	new_rgb(int *colors);
 void	draw_grid(t_game *game, t_img *display);
 
 /* misc */

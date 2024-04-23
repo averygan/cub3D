@@ -30,8 +30,13 @@ endif
 
 #------------------------------------------------------------------------
 
-# cub3d targetss
-MAP = init_map.c map_checker.c map_utils.c texture_checker.c
+# cub3d targets
+MAP = init_map.c \
+	map_checker.c \
+	map_utils.c \
+	texture_checker.c \
+	image_utils.c \
+	color.c
 MAP_SRCS	 = $(addprefix srcs/map/, $(MAP))
 
 ERROR = error.c

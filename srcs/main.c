@@ -17,5 +17,8 @@ int main(int argc, char **argv)
 	t_game game;
 
 	if (argc == 2)
+	{
 		init_map(&game, argv[1]);
+		init_colors(&game.map);
+	}
 }
