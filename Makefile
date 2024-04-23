@@ -30,16 +30,17 @@ endif
 
 #------------------------------------------------------------------------
 
-# cub3d targets
-#init
-# INIT = main.c
-# INIT_SRCS = $(addprefix srcs/init/, $(INIT))
+# cub3d targetss
+MAP = init_map.c map_checker.c map_utils.c texture_checker.c
+MAP_SRCS	 = $(addprefix srcs/map/, $(MAP))
 
-# GRAPHICS = image_utils.c
-# GRAPHICS_SRCS = $(addprefix srcs/graphics/, $(GRAPHICS))
+ERROR = error.c
+ERROR_SRCS = $(addprefix srcs/error/, $(ERROR))
 
-# SRCS = $(INIT_SRCS) $(GRAPHICS_SRCS)
-SRCS = srcs/main.c srcs/init_map.c srcs/error.c srcs/map_checker.c srcs/map_utils.c srcs/texture_checker.c
+RENDER = raycast.c
+RENDER_SRCS	 = $(addprefix srcs/render/, $(RENDER))
+
+SRCS = srcs/main.c $(MAP_SRCS) $(ERROR_SRCS) $(RENDER_SRCS)
 OBJS = $(SRCS:.c=.o)
 
 #------------------------------------------------------------------------
