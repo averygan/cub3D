@@ -79,7 +79,7 @@ int row_checker(char **map_arr, int i)
 	j = 0;
 	while (map_arr[i][j])
 	{
-		if (map_arr[i][j] != '1')
+		if (map_arr[i][j] != '1' && map_arr[i][j] != ' ')
 			return (-1);
 		j++;
 	}
@@ -118,26 +118,65 @@ char **dup_tmp_map(t_map *map)
 			dup_arr[i][j + 1] = map->map_arr[i][j];
 			j++;
 		}
-		dup_arr[i][j] = '\0';
+		dup_arr[i][j + 1] = '\0';
 		len = ft_strlen(dup_arr[i]);
-		while (len < map->map_width + 1)
+		while (len < map->map_width + 2)
 		{
 			dup_arr[i][len] = '~';
 			len++;
 		}
-		dup_arr[i][map->map_width + 1] = '\0';
+		dup_arr[i][map->map_width + 2] = '\0';
 		i++;
 	}
 	dup_arr[i] = NULL;
 	return (dup_arr);
 }
 
-/* cases: check top only if y != 0
-check bot only if y != map->map_height 
-check left only if x != 0 */
-void closed_checker(t_map *map, char **tmp_map, int x, int y)
+/* DFS 
+base case: out of bounds or not tilde 
+if adjacent cell is zero, return true 
+recursively run DFS on adjacent cells */
+bool closed_recursive(t_map *map, char **tmp_map, int row, int col)
 {
-	
+	if (row < 0 || col < 0 || row >= map->map_height || col >= map->map_width || tmp_map[row][col] != '~')
+		return (false);
+
+	tmp_map[row][col] = '*';
+	if ((row > 0 && tmp_map[row - 1][col] == '0') ||
+		(row < map->map_height - 1 && tmp_map[row + 1][col] == '0') ||
+		(col > 0 && tmp_map[row][col - 1] == '0') ||
+		(col < map->map_width - 1 && tmp_map[row][col + 1] == '0'))
+		return (true);
+
+	return (closed_recursive(map, tmp_map, row - 1, col) ||
+			closed_recursive(map, tmp_map, row + 1, col) ||
+			closed_recursive(map, tmp_map, row, col - 1) ||
+			closed_recursive(map, tmp_map, row, col + 1));
+}
+
+/* iterates through tildes to run DFS */
+bool closed_checker(t_map *map, char **tmp_map)
+{
+	int row;
+	int col;
+
+	row = 0;
+	while (row < map->map_height)
+	{
+		col = 0;
+		while (col < map->map_width)
+		{
+			if (tmp_map[row][col] == '~')
+				if (closed_recursive(map, tmp_map, row, col))
+				{
+					printf("map is not closed at [%i][%i]\n", row, col);
+					return (free_arr(tmp_map), false);
+				}
+			col++;
+		}
+		row++;
+	}
+	return (true);
 }
 
 /* runs syntax checker
@@ -155,7 +194,9 @@ int map_checker(t_map *map, char **map_arr)
 			return (-1);
 		tmp_map = dup_tmp_map(map);
 		print_arr(tmp_map);
-		// closed_map_checker()
+		if (!closed_checker(map, tmp_map))
+			return (-1);
+		replace_map_spaces(map->map_arr);
 	}
 	// print_arr(map->map_arr);
 	return 0;
