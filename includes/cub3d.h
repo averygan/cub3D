@@ -27,11 +27,14 @@
 
 /* define map components */
 # define WALL '1'
+# define EMPTY '0'
+
+/* define minimap colours */
+# define WALL_COLOR 0x264653
+# define TILE_COLOR 0xFFEDDA
 
 /* define dimensions */
-# define MAP_HEIGHT 6
-# define MAP_WIDTH 6
-# define TILE_SIZE 100
+# define TILE_SIZE 32
 # define TEXTURE_COUNT 6
 
 enum e_textures
@@ -63,6 +66,12 @@ typedef struct s_img
 	int		line_size;
 	int		endian;
 }	t_img;
+
+typedef struct s_pos_i
+{
+	int	x;
+	int	y;
+}	t_pos_i;
 
 typedef struct s_pos
 {
@@ -118,8 +127,6 @@ typedef struct s_game
 	int		screen_y;
 }	t_game;
 
-extern	char	test_map[MAP_HEIGHT][MAP_WIDTH];
-
 /* color */
 void	init_colors(t_map *map);
 
@@ -128,8 +135,10 @@ void	render_to_window(t_game *game, t_img *image, int x, int y);
 void	get_texture_info(t_img *texture);
 void	new_texture(t_game *game, t_img *texture, char *path);
 char	*get_pixel_pos(t_img *image, int x, int y);
-unsigned int	new_rgb(int *colors);
-void	draw_grid(t_game *game, t_img *display);
+void	ft_put_pixel(t_img *image, int x, int y, unsigned int colour);
+
+/* draw */
+void	draw_grid(t_game *game, t_map *map);
 void	init_textures(t_game *game, t_map *map);
 void	init_window(t_game *game);
 

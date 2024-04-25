@@ -14,10 +14,6 @@
 
 void	init_window(t_game *game)
 {
-	// game->display.x = MAP_WIDTH * TILE_SIZE;
-	// game->display.y = MAP_HEIGHT * TILE_SIZE;
-	game->map.map_height = 14;
-	game->map.map_width = 34;
 	game->display.x = game->map.map_width * TILE_SIZE;
 	game->display.y = game->map.map_height * TILE_SIZE;
 	game->win_ptr = mlx_new_window(game->mlx_ptr,

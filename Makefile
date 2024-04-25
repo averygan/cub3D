@@ -34,16 +34,19 @@ endif
 MAP = init_map.c \
 	map_checker.c \
 	map_utils.c \
-	texture_checker.c \
-	image_utils.c \
-	color.c
-MAP_SRCS	 = $(addprefix srcs/map/, $(MAP))
+	texture_checker.c
+MAP_SRCS = $(addprefix srcs/map/, $(MAP))
 
-ERROR = error.c
+ERROR = error.c \
+	exit.c
 ERROR_SRCS = $(addprefix srcs/error/, $(ERROR))
 
-RENDER = raycast.c
-RENDER_SRCS	 = $(addprefix srcs/render/, $(RENDER))
+RENDER = raycast.c \
+	texture_utils.c \
+	init_window.c \
+	color.c \
+	draw.c
+RENDER_SRCS = $(addprefix srcs/render/, $(RENDER))
 
 SRCS = srcs/main.c $(MAP_SRCS) $(ERROR_SRCS) $(RENDER_SRCS)
 OBJS = $(SRCS:.c=.o)
