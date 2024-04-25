@@ -23,7 +23,7 @@ int main(int argc, char **argv)
 		init_colors(&game.map);
 		init_textures(&game, &game.map);
 		init_window(&game);
-		draw_grid(&game, &game.display);
+		draw_grid(&game, &game.map);
 		mlx_key_hook(game.win_ptr, key_handler, &game);
 		mlx_hook(game.win_ptr, 17, 0, end_game, &game);
 		mlx_loop(game.mlx_ptr);
