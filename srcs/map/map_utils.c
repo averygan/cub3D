@@ -73,3 +73,32 @@ void print_arr(char **arr)
 		i++;
 	}
 }
+
+/* function to get height and length, dup map arr */
+char **dup_map_arr(char **map_arr)
+{
+	int i;
+	char **dup_arr;
+
+	dup_arr = NULL;
+	i = 0;
+	while (map_arr[i])
+		i++;
+	dup_arr = malloc(sizeof(char *) * (i + 1));
+	i = 0;
+	while (map_arr[i])
+	{
+		dup_arr[i] = ft_strdup(map_arr[i]);
+		i++;
+	}
+	dup_arr[i] = NULL;
+	return (dup_arr);
+}
+
+int map_valid_syntax(char map_c)
+{
+	if (map_c != '1' && map_c != '0' && map_c != ' ' && map_c != '\n' \
+		&& map_c != 'N' && map_c != 'S' && map_c != 'E' && map_c != 'W')
+		return (-1);
+	return (0);
+}
