@@ -12,6 +12,7 @@
 
 #include "cub3d.h"
 
+/* Create window based on the dimensions of the map */
 void	init_window(t_game *game)
 {
 	game->display.x = game->map.map_width * TILE_SIZE;

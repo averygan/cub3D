@@ -12,6 +12,7 @@
 
 #include "cub3d.h"
 
+/* Return the absolute value of a number */
 int	ft_abs(int n)
 {
 	if (n < 0)
@@ -19,46 +20,17 @@ int	ft_abs(int n)
 	return (n);
 }
 
-void	draw_line(t_img *display, t_pos_i start, t_pos_i end)
-{
-	t_pos_i	delta;
-	t_pos_i	step;
-	int		slope_error;
-	int		curr_error;
-
-	delta.x = ft_abs(end.x - start.x);
-	delta.y = ft_abs(end.y - start.y);
-	if (start.x < end.x)
-		step.x = 1;
-	else
-		step.x = -1;
-	if (start.y < end.y)
-		step.y = 1;
-	else
-		step.y = -1;
-	slope_error = delta.x - delta.y;
-	while (start.x != end.x || start.y != end.y)
-	{
-		ft_put_pixel(display, start.x, start.y, 0xDC4444);
-		curr_error = 2 * slope_error;
-		if (curr_error > -delta.y)
-		{
-			slope_error -= delta.y;
-			start.x += step.x;
-		}
-		if (curr_error < delta.x)
-		{
-			slope_error += delta.x;
-			start.y += step.y;
-		}
-	}
-}
-
 bool	is_player(char c)
 {
 	return (c == 'N' || c == 'S' || c == 'E' || c == 'W');
 }
 
+/* Draw an individual tile on the map
+- Check the map component to determine what colour to use
+- Set the last column (end.x) as the start pos + the width of one tile
+- For every row until the last row (end.y), draw one line until the end column 
+- After exactly 1 tile has been drawn (x/y coordinate % tile size == 0),
+change colour to draw the line separating it from the next tile */
 void	draw_tile(t_game *game, t_map *map, t_pos_i grid, t_pos_i screen)
 {
 	unsigned int	current_color;
@@ -90,6 +62,8 @@ void	draw_tile(t_game *game, t_map *map, t_pos_i grid, t_pos_i screen)
 	}
 }
 
+/* Draw the map on the display image and push to the window
+- For every row, draw each tile individually */
 void	draw_grid(t_game *game, t_map *map)
 {
 	int	row;
