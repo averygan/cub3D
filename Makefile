@@ -37,18 +37,22 @@ MAP = init_map.c \
 	texture_checker.c
 MAP_SRCS = $(addprefix srcs/map/, $(MAP))
 
+INIT = init_window.c \
+	init_texture.c \
+	init_game.c
+INIT_SRCS = $(addprefix srcs/init/, $(INIT))
+
 ERROR = error.c \
 	exit.c
 ERROR_SRCS = $(addprefix srcs/error/, $(ERROR))
 
 RENDER = raycast.c \
 	texture_utils.c \
-	init_window.c \
 	color.c \
 	draw.c
 RENDER_SRCS = $(addprefix srcs/render/, $(RENDER))
 
-SRCS = srcs/main.c $(MAP_SRCS) $(ERROR_SRCS) $(RENDER_SRCS)
+SRCS = srcs/main.c $(MAP_SRCS) $(ERROR_SRCS) $(RENDER_SRCS) $(INIT_SRCS)
 OBJS = $(SRCS:.c=.o)
 
 #------------------------------------------------------------------------

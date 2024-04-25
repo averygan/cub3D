@@ -32,6 +32,7 @@
 /* define minimap colours */
 # define WALL_COLOR 0x264653
 # define TILE_COLOR 0xFFEDDA
+# define PLAYER_COLOR 0xAAAAA
 
 /* define dimensions */
 # define TILE_SIZE 32
@@ -54,8 +55,15 @@ enum e_rgb
 	B,
 };
 
-/* structs */
+enum e_dir
+{
+	N,
+	S,
+	E,
+	W,
+};
 
+/* structs */
 typedef struct s_img
 {
 	void	*ptr;
@@ -82,17 +90,23 @@ typedef struct s_pos
 typedef struct s_ray
 {
 	t_pos	camera;
-	t_pos	direction; //ray direction
+	t_pos	dir; //ray direction
+	t_pos	sidedist;
+	t_pos	deltadist;
+	int 	perpwalldist;
+	t_pos_i	map;
+	t_pos_i	step;
+	int 	side;
+	int 	wall_found;
 }	t_ray;
 
-typedef struct s_data
+typedef struct s_player
 {
 	t_pos	pos;
-	t_pos	direction; //player direction
+	int		starting_dir;
+	t_pos	dir; //player direction
 	t_pos	plane; //camera plane of the player
-	double	current_time; //time of current frame (to calculate fps)
-	double	prev_time; //time of prev frame
-}	t_data;
+}	t_player;
 
 typedef struct s_map
 {
@@ -117,14 +131,11 @@ typedef struct s_map
 
 typedef struct s_game
 {
-	void	*mlx_ptr;
-	void	*win_ptr;
-	t_img	display;
-	t_map	map;
-	t_data	player;
-	t_ray	ray;
-	int		screen_x;
-	int		screen_y;
+	void		*mlx_ptr;
+	void		*win_ptr;
+	t_img		display;
+	t_map		map;
+	t_player	player;
 }	t_game;
 
 /* color */
@@ -141,13 +152,17 @@ void	ft_put_pixel(t_img *image, int x, int y, unsigned int colour);
 void	draw_grid(t_game *game, t_map *map);
 void	init_textures(t_game *game, t_map *map);
 void	init_window(t_game *game);
+int		is_player(char c);
+
+/* init */
+void	init_game(t_game *game, t_map *map);
 
 /* misc */
 int	key_handler(int keysym, t_game *game);
 int	end_game(t_game *game);
 
 /* map initialization */
-int		init_map(t_game *game, char *map_name);
+int init_map(t_game *game, char *map_name);
 
 /* map utils */
 char	*strjoin_free(char *s1, char *s2);
@@ -158,6 +173,9 @@ int		map_valid_syntax(char map_c);
 
 /* map checker */
 int map_checker(t_map *map, char **map_arr);
+
+/* raycast */
+void raycast(t_game *game, t_player *player);
 
 /* texture checker */
 char	*texture_whitespace(char *texture);

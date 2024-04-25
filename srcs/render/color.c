@@ -51,7 +51,7 @@ void	init_colors(t_map *map)
 	map->floor = new_rgb(map->f_color);
 	map->c_color = parse_colors(map->textures[E_C]);
 	map->ceiling = new_rgb(map->c_color);
-	printf("floor: %u\nceiling: %u\n", map->floor, map->ceiling);
-	for (int i = 0; map->textures[i]; i++)
-		printf("%s\n", map->textures[i]);
+	// printf("floor: %u\nceiling: %u\n", map->floor, map->ceiling);
+	// for (int i = 0; map->textures[i]; i++)
+	// 	printf("%s\n", map->textures[i]);
 }

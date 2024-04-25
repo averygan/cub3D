@@ -31,3 +31,129 @@ calculate perpwalldist
 calculate height of wall
 	lineheight = (int)(h / perpwalldist)
 */
+
+// void raycast(t_game *game, t_data *player, t_ray *ray)
+// {
+// 	player->dir.x = -1;
+// 	player->dir.y = 0;
+// 	ray->plane.x = 0; 
+// 	ray->plane.y = 0.66;
+// 	for (int x = 0; x < game->map.map_width; x++)
+// 	{
+// 		ray->camera.x = 2 * x / game->map.map_width - 1;
+// 		ray->dir.x = ray->dir.x + ray->plane.x * ray->camera.x;
+// 		ray->dir.y = ray->dir.y + ray->plane.y * ray->camera.x;
+// 	}
+// }
+
+/* init ray variables */
+void init_ray(t_ray *ray)
+{
+	ray->camera.x = 0;
+	ray->camera.y = 0;
+	ray->dir.x = 0;
+	ray->dir.y = 0;
+	ray->sidedist.x = 0;
+	ray->sidedist.y = 0;
+	ray->map.x = 0;
+	ray->map.y = 0;
+	ray->step.x = 0;
+	ray->step.y = 0;
+	ray->side = 0;
+}
+
+/* function to calc step and initial sidedist of ray */
+void calc_raycast(t_player player, t_ray *ray)
+{
+	if (ray->dir.x < 0)
+	{
+		ray->step.x = -1;
+		ray->sidedist.x = (player.pos.x - ray->map.x) * ray->deltadist.x;
+	}
+	else
+	{
+		ray->step.x = 1;
+		ray->sidedist.x = (ray->map.x + 1.0 - player.pos.x) * ray->deltadist.x;
+	}
+	if (ray->dir.y < 0)
+	{
+		ray->step.y = -1;
+		ray->sidedist.x = (player.pos.y - ray->map.y) * ray->deltadist.y;
+	}
+	else
+	{
+		ray->step.y = 1;
+		ray->sidedist.x = (ray->map.y + 1.0 - player.pos.y) * ray->deltadist.y;
+	}
+}
+
+/* init each ray's data */
+void init_raycast(t_player player, t_ray *ray, int x, int width)
+{
+	// calculate ray position and direction
+	// x-coord in camera space
+	ray->camera.x = 2 * x / (double)width - 1;
+	ray->dir.x = player.dir.x + player.plane.x * ray->camera.x;
+	ray->dir.y = player.dir.y + player.plane.y * ray->camera.x;
+	// curr box position
+	ray->map.x = (int)player.pos.x;
+	ray->map.y = (int)player.pos.y;
+	// length of ray from curr position to next x or y side
+	if (ray->dir.x == 0)
+		ray->deltadist.x = 1e30;
+	else
+		ray->deltadist.x = fabs(1/ray->dir.x);
+	if (ray->dir.y == 0)
+		ray->deltadist.y = 1e30;
+	else
+		ray->deltadist.y = fabs(1/ray->dir.y);
+	ray->wall_found = 0;
+}
+
+/* dda algorithm 
+loop to check next box until wall met */
+void dda(t_map *map, t_ray *ray)
+{
+	while (ray->wall_found == 0)
+	{
+		if (ray->sidedist.x < ray->sidedist.y)
+		{
+			ray->sidedist.x += ray->deltadist.x;
+			ray->map.x += ray->step.x;
+			ray->side = 0;
+		}
+		else
+		{
+			ray->sidedist.y += ray->deltadist.y;
+			ray->map.y += ray->step.y;
+			ray->side = 1;			
+		}
+		if (map->map_arr[ray->map.x][ray->map.y] == '1')
+		{
+			printf("wall found at %i, %i\n", ray->map.x, ray->map.y);
+			ray->wall_found = 1;
+			return ;
+		}
+	}
+	if (ray->side == 0)
+		ray->perpwalldist = ray->sidedist.x - ray->deltadist.x;
+	else
+		ray->perpwalldist = ray->sidedist.y - ray->deltadist.y;
+}
+
+/* raycasting loop */
+void raycast(t_game *game, t_player *player)
+{
+	t_ray ray;
+	int x;
+
+	x = 0;
+	init_ray(&ray);
+	while (x < game->display.x)
+	{
+		init_raycast(*player, &ray, x, game->display.x);
+		calc_raycast(*player, &ray);
+		dda(&game->map, &ray);
+		x++;
+	}
+}

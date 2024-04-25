@@ -22,7 +22,9 @@ int main(int argc, char **argv)
 		init_map(&game, argv[1]);
 		init_colors(&game.map);
 		init_textures(&game, &game.map);
+		init_game(&game, &game.map);
 		init_window(&game);
+		raycast(&game, &game.player);
 		draw_grid(&game, &game.map);
 		mlx_key_hook(game.win_ptr, key_handler, &game);
 		mlx_hook(game.win_ptr, 17, 0, end_game, &game);

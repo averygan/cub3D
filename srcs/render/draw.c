@@ -20,9 +20,18 @@ int	ft_abs(int n)
 	return (n);
 }
 
-bool	is_player(char c)
+int	is_player(char c)
 {
-	return (c == 'N' || c == 'S' || c == 'E' || c == 'W');
+	if (c == 'N')
+		return (N);
+	else if (c == 'S')
+		return (S);
+	else if (c == 'E')
+		return (E);
+	else if (c == 'W')
+		return (W);
+	else
+		return (-1);
 }
 
 /* Draw an individual tile on the map
@@ -40,8 +49,9 @@ void	draw_tile(t_game *game, t_map *map, t_pos_i grid, t_pos_i screen)
 	start_column = screen.x;
 	if (map->map_arr[grid.y][grid.x] == WALL)
 		current_color = WALL_COLOR; // current_color = game->map.floor;
-	else if (map->map_arr[grid.y][grid.x] == EMPTY
-		|| is_player(map->map_arr[grid.y][grid.x]))
+	else if (is_player(map->map_arr[grid.y][grid.x]) != -1)
+		current_color = PLAYER_COLOR;
+	else if (map->map_arr[grid.y][grid.x] == EMPTY)
 		current_color = TILE_COLOR; // current_color = game->map.ceiling;
 	else
 		return ;
