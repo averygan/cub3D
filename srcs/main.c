@@ -24,8 +24,9 @@ int main(int argc, char **argv)
 		init_textures(&game, &game.map);
 		init_game(&game, &game.map);
 		init_window(&game);
-		raycast(&game, &game.player);
 		draw_grid(&game, &game.map);
+		raycast(&game, &game.player, &game.ray);
+		render_to_window(&game, &game.display, 0, 0);
 		mlx_key_hook(game.win_ptr, key_handler, &game);
 		mlx_hook(game.win_ptr, 17, 0, end_game, &game);
 		mlx_loop(game.mlx_ptr);

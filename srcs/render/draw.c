@@ -94,5 +94,4 @@ void	draw_grid(t_game *game, t_map *map)
 	}
 	// draw_line(display, (t_pos_i){.x = TILE_SIZE, .y = TILE_SIZE},
 	// 	(t_pos_i){.x = 20 * TILE_SIZE, .y = 10 * TILE_SIZE});
-	render_to_window(game, &game->display, 0, 0);
 }

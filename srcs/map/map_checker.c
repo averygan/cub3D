@@ -68,7 +68,7 @@ void map_height_width(t_map *map, char **map_arr)
 	}
 	map->map_height = height;
 	map->map_width = width;
-	printf("height is %i\nwidth is %i\n", map->map_height, map->map_width);
+	// printf("height is %i\nwidth is %i\n", map->map_height, map->map_width);
 }
 
 /* function to check if row contains all '1's, checker for first and last rows */
@@ -193,7 +193,7 @@ int map_checker(t_map *map, char **map_arr)
 		if (row_checker(map_arr, 0) || row_checker(map_arr, map->map_height - 1))
 			return (-1);
 		tmp_map = dup_tmp_map(map);
-		print_arr(tmp_map);
+		// print_arr(tmp_map);
 		if (!closed_checker(map, tmp_map))
 			return (-1);
 		replace_map_spaces(map->map_arr);

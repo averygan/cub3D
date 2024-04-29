@@ -78,12 +78,12 @@ void calc_raycast(t_player player, t_ray *ray)
 	if (ray->dir.y < 0)
 	{
 		ray->step.y = -1;
-		ray->sidedist.x = (player.pos.y - ray->map.y) * ray->deltadist.y;
+		ray->sidedist.y = (player.pos.y - ray->map.y) * ray->deltadist.y;
 	}
 	else
 	{
 		ray->step.y = 1;
-		ray->sidedist.x = (ray->map.y + 1.0 - player.pos.y) * ray->deltadist.y;
+		ray->sidedist.y = (ray->map.y + 1.0 - player.pos.y) * ray->deltadist.y;
 	}
 }
 
@@ -99,6 +99,7 @@ void init_raycast(t_player player, t_ray *ray, int x, int width)
 	ray->map.x = (int)player.pos.x;
 	ray->map.y = (int)player.pos.y;
 	// length of ray from curr position to next x or y side
+	// printf("ray's dir x is %f, dir y is %f\n", ray->dir.x, ray->dir.y);
 	if (ray->dir.x == 0)
 		ray->deltadist.x = 1e30;
 	else
@@ -112,9 +113,9 @@ void init_raycast(t_player player, t_ray *ray, int x, int width)
 
 /* dda algorithm 
 loop to check next box until wall met */
-void dda(t_map *map, t_ray *ray)
+void dda(t_game *game, t_map *map, t_ray *ray)
 {
-	while (ray->wall_found == 0)
+	while (!ray->wall_found)
 	{
 		if (ray->sidedist.x < ray->sidedist.y)
 		{
@@ -128,32 +129,35 @@ void dda(t_map *map, t_ray *ray)
 			ray->map.y += ray->step.y;
 			ray->side = 1;			
 		}
-		if (map->map_arr[ray->map.x][ray->map.y] == '1')
+		if (map->map_arr[ray->map.y][ray->map.x] == '1')
 		{
-			printf("wall found at %i, %i\n", ray->map.x, ray->map.y);
+			// printf("wall found at %i, %i\n", ray->map.x, ray->map.y);
 			ray->wall_found = 1;
-			return ;
+			draw_ray(&game->display, ray, &game->player, game->map.map_arr);
 		}
 	}
-	if (ray->side == 0)
-		ray->perpwalldist = ray->sidedist.x - ray->deltadist.x;
-	else
-		ray->perpwalldist = ray->sidedist.y - ray->deltadist.y;
 }
 
-/* raycasting loop */
-void raycast(t_game *game, t_player *player)
-{
-	t_ray ray;
-	int x;
+// void draw_wall()
+// {
+// 	if (ray->side == 0)
+// 		ray->perpwalldist = ray->sidedist.x - ray->deltadist.x;
+// 	else
+// 		ray->perpwalldist = ray->sidedist.y - ray->deltadist.y;
+// }
 
-	x = 0;
-	init_ray(&ray);
-	while (x < game->display.x)
+/* raycasting loop */
+void raycast(t_game *game, t_player *player, t_ray *ray)
+{
+	int i;
+
+	i = 0;
+	init_ray(ray);
+	while (i < game->display.x)
 	{
-		init_raycast(*player, &ray, x, game->display.x);
-		calc_raycast(*player, &ray);
-		dda(&game->map, &ray);
-		x++;
+		init_raycast(*player, ray, i, game->display.x);
+		calc_raycast(*player, ray);
+		dda(game, &game->map, ray);
+		i++;
 	}
 }

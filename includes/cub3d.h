@@ -33,6 +33,7 @@
 # define WALL_COLOR 0x264653
 # define TILE_COLOR 0xFFEDDA
 # define PLAYER_COLOR 0xAAAAA
+# define RAY_COLOR 0xFF0000
 
 /* define dimensions */
 # define TILE_SIZE 32
@@ -134,8 +135,10 @@ typedef struct s_game
 	void		*mlx_ptr;
 	void		*win_ptr;
 	t_img		display;
+	t_img		minimap;
 	t_map		map;
 	t_player	player;
+	t_ray		ray;
 }	t_game;
 
 /* color */
@@ -157,12 +160,19 @@ int		is_player(char c);
 /* init */
 void	init_game(t_game *game, t_map *map);
 
+/* init player */
+void player_dir(t_player *player);
+void	init_player(t_game *game, t_map *map);
+
 /* misc */
 int	key_handler(int keysym, t_game *game);
 int	end_game(t_game *game);
 
 /* map initialization */
 int init_map(t_game *game, char *map_name);
+
+/* draw ray */
+void	draw_ray(t_img *display, t_ray *ray, t_player *player, char **map);
 
 /* map utils */
 char	*strjoin_free(char *s1, char *s2);
@@ -175,7 +185,7 @@ int		map_valid_syntax(char map_c);
 int map_checker(t_map *map, char **map_arr);
 
 /* raycast */
-void raycast(t_game *game, t_player *player);
+void raycast(t_game *game, t_player *player, t_ray *ray);
 
 /* texture checker */
 char	*texture_whitespace(char *texture);
