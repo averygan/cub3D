@@ -51,7 +51,8 @@ RENDER = raycast.c \
 	texture_utils.c \
 	color.c \
 	draw.c \
-	draw_ray.c
+	draw_ray.c \
+	draw_wall.c
 RENDER_SRCS = $(addprefix srcs/render/, $(RENDER))
 
 SRCS = srcs/main.c $(MAP_SRCS) $(ERROR_SRCS) $(RENDER_SRCS) $(INIT_SRCS)

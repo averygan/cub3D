@@ -95,6 +95,7 @@ typedef struct s_ray
 	t_pos	sidedist;
 	t_pos	deltadist;
 	int 	perpwalldist;
+	int 	lineheight;
 	t_pos_i	map;
 	t_pos_i	step;
 	int 	side;
@@ -115,11 +116,6 @@ typedef struct s_map
 	char	**map_arr;
 	int		fd;
 	char	*textures[TEXTURE_COUNT];
-	t_img	walls[4];
-	int	*f_color;
-	int	*c_color;
-	unsigned int	floor;
-	unsigned int	ceiling;
 	int		valid_no;
 	int		valid_so;
 	int		valid_ea;
@@ -130,6 +126,12 @@ typedef struct s_map
 	int		map_width;
 }	t_map;
 
+typedef struct s_wall
+{
+	int start;
+	int end;
+}	t_wall;
+
 typedef struct s_game
 {
 	void		*mlx_ptr;
@@ -139,10 +141,16 @@ typedef struct s_game
 	t_map		map;
 	t_player	player;
 	t_ray		ray;
+	t_img		walls[4];
+	int	*f_color;
+	int	*c_color;
+	unsigned int	floor;
+	unsigned int	ceiling;
 }	t_game;
 
 /* color */
-void	init_colors(t_map *map);
+void	init_colors(t_game *game, t_map *map);
+bool	is_whitespace(char c);
 
 /* image utils */
 void	render_to_window(t_game *game, t_img *image, int x, int y);
@@ -173,6 +181,9 @@ int init_map(t_game *game, char *map_name);
 
 /* draw ray */
 void	draw_ray(t_img *display, t_ray *ray, t_player *player, char **map);
+
+/* render wall */
+void render_wall(t_game *game, t_ray *ray, int x);
 
 /* map utils */
 char	*strjoin_free(char *s1, char *s2);

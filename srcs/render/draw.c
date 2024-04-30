@@ -63,9 +63,9 @@ void	draw_tile(t_game *game, t_map *map, t_pos_i grid, t_pos_i screen)
 		while (screen.x < end.x)
 		{
 			if (screen.x % TILE_SIZE == 0 || screen.y % TILE_SIZE == 0)
-				ft_put_pixel(&game->display, screen.x, screen.y, 0x0c343d);
+				ft_put_pixel(&game->minimap, screen.x, screen.y, 0x0c343d);
 			else
-				ft_put_pixel(&game->display, screen.x, screen.y, current_color);
+				ft_put_pixel(&game->minimap, screen.x, screen.y, current_color);
 			screen.x++;
 		}
 		screen.y++;

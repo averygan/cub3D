@@ -29,18 +29,18 @@ int parse_map(t_game *game)
 
 void init_map_struct(t_game *game)
 {
-	int i;
+	// int i;
 
-	i = 0;
-	while (i < TEXTURE_COUNT)
-	{
-		game->map.textures[i] = NULL;
-		i++;
-	}
+	// i = 0;
+	// while (i < TEXTURE_COUNT)
+	// {
+	// 	game->map.textures[i] = NULL;
+	// 	i++;
+	// }
 	game->map.map = NULL;
 	game->map.map_arr = NULL;
-	game->map.f_color = NULL;
-	game->map.c_color = NULL;
+	// game->map.f_color = NULL;
+	// game->map.c_color = NULL;
 	game->map.valid_no = 0;
 	game->map.valid_so = 0;
 	game->map.valid_ea = 0;

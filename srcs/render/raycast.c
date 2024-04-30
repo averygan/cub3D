@@ -60,6 +60,7 @@ void init_ray(t_ray *ray)
 	ray->step.x = 0;
 	ray->step.y = 0;
 	ray->side = 0;
+	ray->lineheight = 0;
 }
 
 /* function to calc step and initial sidedist of ray */
@@ -133,18 +134,10 @@ void dda(t_game *game, t_map *map, t_ray *ray)
 		{
 			// printf("wall found at %i, %i\n", ray->map.x, ray->map.y);
 			ray->wall_found = 1;
-			draw_ray(&game->display, ray, &game->player, game->map.map_arr);
+			draw_ray(&game->minimap, ray, &game->player, game->map.map_arr);
 		}
 	}
 }
-
-// void draw_wall()
-// {
-// 	if (ray->side == 0)
-// 		ray->perpwalldist = ray->sidedist.x - ray->deltadist.x;
-// 	else
-// 		ray->perpwalldist = ray->sidedist.y - ray->deltadist.y;
-// }
 
 /* raycasting loop */
 void raycast(t_game *game, t_player *player, t_ray *ray)
@@ -158,6 +151,7 @@ void raycast(t_game *game, t_player *player, t_ray *ray)
 		init_raycast(*player, ray, i, game->display.x);
 		calc_raycast(*player, ray);
 		dda(game, &game->map, ray);
+		render_wall(game, ray, i);
 		i++;
 	}
 }

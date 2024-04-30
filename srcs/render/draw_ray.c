@@ -19,7 +19,7 @@ static int	ft_abs(int n)
 	return (n);
 }
 /* Plot a line from the player position to where the ray hit the wall */
-static void	dda_draw_ray(t_img *display, t_pos_i start, t_pos_i end, char **map)
+static void	dda_draw_ray(t_img *image, t_pos_i start, t_pos_i end, char **map)
 {
 	t_pos_i	delta;
 	t_pos_i	step;
@@ -40,7 +40,7 @@ static void	dda_draw_ray(t_img *display, t_pos_i start, t_pos_i end, char **map)
 	while ((start.x != end.x || start.y != end.y)
 		&& map[(int)(start.y / TILE_SIZE)][(int)(start.x / TILE_SIZE)] != '1')
 	{
-		ft_put_pixel(display, start.x, start.y, 0xDC4444);
+		ft_put_pixel(image, start.x, start.y, 0xDC4444);
 		curr = 2 * slope_err;
 		if (curr > -delta.y)
 		{
@@ -55,7 +55,7 @@ static void	dda_draw_ray(t_img *display, t_pos_i start, t_pos_i end, char **map)
 	}
 }
 /* Init structs for the start and end coordinates of the line to be drawn */
-void	draw_ray(t_img *display, t_ray *ray, t_player *player, char **map)
+void	draw_ray(t_img *image, t_ray *ray, t_player *player, char **map)
 {
 	t_pos_i	start;
 	t_pos_i	end;
@@ -63,5 +63,5 @@ void	draw_ray(t_img *display, t_ray *ray, t_player *player, char **map)
 	start.y = (int)player->pos.y * TILE_SIZE;
 	end.x = ray->map.x * TILE_SIZE;
 	end.y = ray->map.y * TILE_SIZE;
-	dda_draw_ray(display, start, end, map);
+	dda_draw_ray(image, start, end, map);
 }
