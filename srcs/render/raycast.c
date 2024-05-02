@@ -61,6 +61,14 @@ void init_ray(t_ray *ray)
 	ray->step.y = 0;
 	ray->side = 0;
 	ray->lineheight = 0;
+	ray->wall.dist = 0;
+	ray->wall.start = 0;
+	ray->wall.end = 0;
+	ray->wall.texture.x = 0;
+	ray->wall.texture.y = 0;
+	ray->wall.step = 0;
+	ray->wall.texpos = 0;
+	ray->wall.colors = NULL;
 }
 
 /* function to calc step and initial sidedist of ray */
@@ -100,7 +108,6 @@ void init_raycast(t_player player, t_ray *ray, int x, int width)
 	ray->map.x = (int)player.pos.x;
 	ray->map.y = (int)player.pos.y;
 	// length of ray from curr position to next x or y side
-	// printf("ray's dir x is %f, dir y is %f\n", ray->dir.x, ray->dir.y);
 	if (ray->dir.x == 0)
 		ray->deltadist.x = 1e30;
 	else
@@ -109,6 +116,7 @@ void init_raycast(t_player player, t_ray *ray, int x, int width)
 		ray->deltadist.y = 1e30;
 	else
 		ray->deltadist.y = fabs(1/ray->dir.y);
+	// printf("dir y is %f\n", ray->dir.y);
 	ray->wall_found = 0;
 }
 
@@ -151,6 +159,8 @@ void raycast(t_game *game, t_player *player, t_ray *ray)
 		init_raycast(*player, ray, i, game->display.x);
 		calc_raycast(*player, ray);
 		dda(game, &game->map, ray);
+		// if (ray->side == 0)
+		// 	printf("dir y is %f\n", ray->dir.y);
 		render_wall(game, ray, i);
 		i++;
 	}

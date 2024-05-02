@@ -37,6 +37,8 @@
 
 /* define dimensions */
 # define TILE_SIZE 32
+# define TEXTURE_WIDTH 64
+# define TEXTURE_HEIGHT 64
 # define TEXTURE_COUNT 6
 
 enum e_textures
@@ -74,6 +76,7 @@ typedef struct s_img
 	int		bpp;
 	int		line_size;
 	int		endian;
+	unsigned int **colors;
 }	t_img;
 
 typedef struct s_pos_i
@@ -88,18 +91,30 @@ typedef struct s_pos
 	double	y;
 }	t_pos;
 
+typedef struct s_wall
+{
+	double dist;
+	int start;
+	int end;
+	t_pos_i texture;
+	double step;
+	double texpos;
+	unsigned int **colors;
+}	t_wall;
+
 typedef struct s_ray
 {
 	t_pos	camera;
 	t_pos	dir; //ray direction
 	t_pos	sidedist;
 	t_pos	deltadist;
-	int 	perpwalldist;
+	double 	perpwalldist;
 	int 	lineheight;
 	t_pos_i	map;
 	t_pos_i	step;
 	int 	side;
 	int 	wall_found;
+	t_wall	wall;
 }	t_ray;
 
 typedef struct s_player
@@ -125,12 +140,6 @@ typedef struct s_map
 	int		map_height;
 	int		map_width;
 }	t_map;
-
-typedef struct s_wall
-{
-	int start;
-	int end;
-}	t_wall;
 
 typedef struct s_game
 {

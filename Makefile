@@ -7,7 +7,7 @@ RM = rm -f
 # libft path and flags
 LIBFT = libft.a
 LIB_DIR = ./libft
-LIB_FLAGS = -L $(LIB_DIR) -lft
+LIB_FLAGS = -L $(LIB_DIR) -lft -lm
 INC = -I ./includes
 
 #------------------------------------------------------------------------
@@ -52,7 +52,8 @@ RENDER = raycast.c \
 	color.c \
 	draw.c \
 	draw_ray.c \
-	draw_wall.c
+	draw_wall.c \
+	draw_texture.c
 RENDER_SRCS = $(addprefix srcs/render/, $(RENDER))
 
 SRCS = srcs/main.c $(MAP_SRCS) $(ERROR_SRCS) $(RENDER_SRCS) $(INIT_SRCS)

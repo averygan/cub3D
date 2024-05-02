@@ -31,11 +31,3 @@ void	init_window(t_game *game)
 	new_canvas(game, &game->minimap);
 	get_texture_info(&game->display);
 }
-
-void	init_textures(t_game *game, t_map *map)
-{
-	new_texture(game, &game->walls[E_NO], map->textures[E_NO]);
-	new_texture(game, &game->walls[E_SO], map->textures[E_SO]);
-	new_texture(game, &game->walls[E_EA], map->textures[E_EA]);
-	new_texture(game, &game->walls[E_WE], map->textures[E_WE]);
-}
