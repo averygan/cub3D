@@ -18,7 +18,7 @@ static int	ft_abs(int n)
 		return (n * -1);
 	return (n);
 }
-/* Plot a line from the player position to where the ray hit the wall */
+/* plot a line from the player position to where the ray hit the wall */
 static void	dda_draw_ray(t_img *image, t_pos_i start, t_pos_i end, char **map)
 {
 	t_pos_i	delta;
@@ -54,7 +54,7 @@ static void	dda_draw_ray(t_img *image, t_pos_i start, t_pos_i end, char **map)
 		}
 	}
 }
-/* Init structs for the start and end coordinates of the line to be drawn */
+/* init structs for the start and end coordinates of the line to be drawn */
 void	draw_ray(t_img *image, t_ray *ray, t_player *player, char **map)
 {
 	t_pos_i	start;

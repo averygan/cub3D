@@ -12,49 +12,34 @@
 
 #include "cub3d.h"
 
-/* Return the absolute value of a number */
-int	ft_abs(int n)
+void	set_color(unsigned int *color, t_game *game, char **map, t_pos_i grid)
 {
-	if (n < 0)
-		return (n * -1);
-	return (n);
-}
+	int	row_width;
 
-int	is_player(char c)
-{
-	if (c == 'N')
-		return (N);
-	else if (c == 'S')
-		return (S);
-	else if (c == 'E')
-		return (E);
-	else if (c == 'W')
-		return (W);
+	row_width = ft_strlen(map[grid.y]);
+	if (grid.x < row_width)
+	{
+		if (map[grid.y][grid.x] == WALL)
+			*color = WALL_COLOR;
+		else
+			*color = game->floor;
+	}
 	else
-		return (-1);
+		*color = game->floor;
 }
 
 /* Draw an individual tile on the map
 - Check the map component to determine what colour to use
 - Set the last column (end.x) as the start pos + the width of one tile
-- For every row until the last row (end.y), draw one line until the end column 
-- After exactly 1 tile has been drawn (x/y coordinate % tile size == 0),
-change colour to draw the line separating it from the next tile */
-void	draw_tile(t_game *game, t_map *map, t_pos_i grid, t_pos_i screen)
+- For every row until the last row (end.y), draw one line until the end column */
+void	draw_tile(t_game *game, char **map, t_pos_i grid, t_pos_i screen)
 {
 	unsigned int	current_color;
 	int				start_column;
 	t_pos_i			end;
 
+	set_color(&current_color, game, map, grid);
 	start_column = screen.x;
-	if (map->map_arr[grid.y][grid.x] == WALL)
-		current_color = WALL_COLOR; // current_color = game->map.floor;
-	else if (is_player(map->map_arr[grid.y][grid.x]) != -1)
-		current_color = PLAYER_COLOR;
-	else if (map->map_arr[grid.y][grid.x] == EMPTY)
-		current_color = TILE_COLOR; // current_color = game->map.ceiling;
-	else
-		return ;
 	end.x = screen.x + TILE_SIZE;
 	end.y = screen.y + TILE_SIZE;
 	while (screen.y < end.y)
@@ -62,13 +47,40 @@ void	draw_tile(t_game *game, t_map *map, t_pos_i grid, t_pos_i screen)
 		screen.x = start_column;
 		while (screen.x < end.x)
 		{
-			if (screen.x % TILE_SIZE == 0 || screen.y % TILE_SIZE == 0)
-				ft_put_pixel(&game->minimap, screen.x, screen.y, 0x0c343d);
-			else
-				ft_put_pixel(&game->minimap, screen.x, screen.y, current_color);
+			ft_put_pixel(&game->minimap, screen.x, screen.y, current_color);
 			screen.x++;
 		}
 		screen.y++;
+	}
+}
+
+/* Draw a circle on the minimap to represent the current player pos
+- Find the coordinates of the centre of the circle
+(player pos scaled to TILE_SIZE)
+- Starting from the topmost row (y), calculate the width of each row
+and fill every line from the initial current.x to the end.x value */
+void	draw_player_pos(t_game *game, t_player *player)
+{
+	t_pos_i	centre;
+	t_pos_i	current;
+	t_pos_i	end;
+	int		delta_x;
+
+	centre.x = player->pos.x * TILE_SIZE;
+	centre.y = player->pos.y * TILE_SIZE;
+	current.y = centre.y - RADIUS;
+	end.y = centre.y + RADIUS;
+	while (current.y <= end.y)
+	{
+		delta_x = (int)sqrt(pow(RADIUS, 2) - pow(current.y - centre.y, 2));
+		current.x = centre.x - delta_x;
+		end.x = centre.x + delta_x;
+		while (current.x <= end.x)
+		{
+			ft_put_pixel(&game->minimap, current.x, current.y, RAY_COLOR);
+			current.x++;
+		}
+		current.y++;
 	}
 }
 
@@ -85,13 +97,12 @@ void	draw_grid(t_game *game, t_map *map)
 		column = 0;
 		while (column < map->map_width)
 		{
-			draw_tile(game, map,
+			draw_tile(game, map->map_arr,
 				(t_pos_i){.x = column, .y = row},
 				(t_pos_i){.x = column * TILE_SIZE, .y = row * TILE_SIZE});
 			column++;
 		}
 		row++;
 	}
-	// draw_line(display, (t_pos_i){.x = TILE_SIZE, .y = TILE_SIZE},
-	// 	(t_pos_i){.x = 20 * TILE_SIZE, .y = 10 * TILE_SIZE});
+	draw_player_pos(game, &game->player);
 }

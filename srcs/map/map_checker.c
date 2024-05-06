@@ -13,10 +13,10 @@
 #include "cub3d.h"
 
 /* checks if there are invalid syntax in map */
-int map_syntax_checker(char **map)
+int	map_syntax_checker(char **map)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	i = -1;
 	while (map[++i])
@@ -25,17 +25,17 @@ int map_syntax_checker(char **map)
 		while (map[i][++j])
 		{
 			if (map_valid_syntax(map[i][j]))
-				return (printf("map contains invalid characters\n"), -1);
+				return (print_err(MAP_SYNTAX_ERR), -1);
 		}
 	}
-	return 0;
+	return (0);
 }
 
 /* check spaces in map - if spaces are within map, replace with wall */
-void replace_map_spaces(char **map_arr)
+void	replace_map_spaces(char **map_arr)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	i = 0;
 	while (map_arr[i])
@@ -46,17 +46,17 @@ void replace_map_spaces(char **map_arr)
 		while (map_arr[i][j])
 		{
 			if (map_arr[i][j] == ' ')
-				map_arr[i][j] = 1;
+				map_arr[i][j] = '1';
 			j++;
 		}
 		i++;
 	}
 }
 
-void map_height_width(t_map *map, char **map_arr)
+void	map_height_width(t_map *map, char **map_arr)
 {
-	int height;
-	int width;
+	int	height;
+	int	width;
 
 	height = 0;
 	width = ft_strlen(map_arr[0]);
@@ -68,13 +68,12 @@ void map_height_width(t_map *map, char **map_arr)
 	}
 	map->map_height = height;
 	map->map_width = width;
-	// printf("height is %i\nwidth is %i\n", map->map_height, map->map_width);
 }
 
 /* function to check if row contains all '1's, checker for first and last rows */
-int row_checker(char **map_arr, int i)
+int	row_checker(char **map_arr, int i)
 {
-	int j;
+	int	j;
 
 	j = 0;
 	while (map_arr[i][j])
@@ -94,14 +93,16 @@ iterate through map arr
 	strcpy content of map for each row 
 	get strlen -> fill in rest of the row with tilde
 */
-char **dup_tmp_map(t_map *map)
+char	**dup_tmp_map(t_map *map)
 {
-	char **dup_arr;
-	int i;
-	int j;
-	int len;
+	char	**dup_arr;
+	int		i;
+	int		j;
+	int		len;
 
 	dup_arr = malloc(sizeof(char *) * (map->map_height + 1));
+	if (!dup_arr)
+		return (NULL);
 	i = 0;
 	while (map->map_arr[i])
 	{
@@ -136,7 +137,7 @@ char **dup_tmp_map(t_map *map)
 base case: out of bounds or not tilde 
 if adjacent cell is zero, return true 
 recursively run DFS on adjacent cells */
-bool closed_recursive(t_map *map, char **tmp_map, int row, int col)
+bool	closed_recursive(t_map *map, char **tmp_map, int row, int col)
 {
 	if (row < 0 || col < 0 || row >= map->map_height || col >= map->map_width || tmp_map[row][col] != '~')
 		return (false);
@@ -155,10 +156,10 @@ bool closed_recursive(t_map *map, char **tmp_map, int row, int col)
 }
 
 /* iterates through tildes to run DFS */
-bool closed_checker(t_map *map, char **tmp_map)
+bool	closed_checker(t_map *map, char **tmp_map)
 {
-	int row;
-	int col;
+	int	row;
+	int	col;
 
 	row = 0;
 	while (row < map->map_height)
@@ -167,11 +168,10 @@ bool closed_checker(t_map *map, char **tmp_map)
 		while (col < map->map_width)
 		{
 			if (tmp_map[row][col] == '~')
+			{
 				if (closed_recursive(map, tmp_map, row, col))
-				{
-					printf("map is not closed at [%i][%i]\n", row, col);
-					return (free_arr(tmp_map), false);
-				}
+					return (print_map_not_closed(row, col), false);
+			}
 			col++;
 		}
 		row++;
@@ -181,23 +181,27 @@ bool closed_checker(t_map *map, char **tmp_map)
 
 /* runs syntax checker
 duplicates map array from buffer and stores in map.map_arr */
-int map_checker(t_map *map, char **map_arr)
+int	map_checker(t_map *map, char **map_arr)
 {
-	char **tmp_map;
+	char	**tmp_map;
+
 	if (map_syntax_checker(map_arr))
 		return (-1);
 	map->map_arr = dup_map_arr(map_arr);
+	if (!map->map_arr)
+		return (print_err(MEM_ERR), -1);
 	if (map->map_arr)
 	{
 		map_height_width(map, map_arr);
 		if (row_checker(map_arr, 0) || row_checker(map_arr, map->map_height - 1))
 			return (-1);
 		tmp_map = dup_tmp_map(map);
-		// print_arr(tmp_map);
+		if (!tmp_map)
+			return (print_err(MEM_ERR), -1);
 		if (!closed_checker(map, tmp_map))
-			return (-1);
+			return (free_arrays(tmp_map), -1);
 		replace_map_spaces(map->map_arr);
+		free_arrays(tmp_map);
 	}
-	// print_arr(map->map_arr);
-	return 0;
+	return (0);
 }

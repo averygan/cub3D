@@ -12,68 +12,43 @@
 
 #include "cub3d.h"
 
-void	init_player(t_game *game, t_map *map)
+int	set_player_dir(t_player *player, char c)
 {
-	int x;
-	int y;
-	t_pos *player_pos;
-
-	y = 0;
-	player_pos = &(game->player.pos);
-	while (map->map_arr[y])
-	{
-		x = 0;
-		while (map->map_arr[y][x])
-		{
-			if (is_player(map->map_arr[y][x]) != -1)
-			{
-				player_pos->x = x;
-				player_pos->y = y;
-				game->player.starting_dir = is_player(map->map_arr[y][x]);
-				break ;
-			}
-			x++;
-		}
-		y++;
-	}
+	if (c == 'N')
+		return (player->dir.x = 0, player->dir.y = -1,
+			player->plane.x = 0.66, player->plane.y = 0, 1);
+	else if (c == 'S')
+		return (player->dir.x = 0, player->dir.y = 1,
+			player->plane.x = -0.66, player->plane.y = 0, 1);
+	else if (c == 'E')
+		return (player->dir.x = 1, player->dir.y = 0,
+			player->plane.x = 0, player->plane.y = 0.66, 1);
+	else if (c == 'W')
+		return (player->dir.x = -1, player->dir.y = 0,
+			player->plane.x = 0, player->plane.y = -0.66, 1);
+	return (0);
 }
 
-/* init player direction variables */
-void player_dir(t_player *player)
+int	init_player_pos(t_map *map, t_player *player)
 {
-	if (player->starting_dir == N)
+	int row;
+	int col;
+
+	row = 0;
+	while (map->map_arr[row])
 	{
-		player->dir.x = 0;
-		player->dir.y = -1;
-		player->plane.x = 0.66;
-		player->plane.y = 0;
+		col = 0;
+		while (map->map_arr[row][col])
+		{
+			if (set_player_dir(player, map->map_arr[row][col]))
+			{
+				player->pos.x = col;
+				player->pos.y = row;
+				return (0);
+			}
+			col++;
+		}
+		row++;
 	}
-	else if (player->starting_dir == S)
-	{
-		player->dir.x = 0;
-		player->dir.y = 1;
-		player->plane.x = -0.66;
-		player->plane.y = 0;
-	}
-	else if (player->starting_dir == E)
-	{
-		player->dir.x = 1;
-		player->dir.y = 0;
-		player->plane.x = 0;
-		player->plane.y = -0.66;
-	}
-	else if (player->starting_dir == W)
-	{
-		player->dir.x = -1;
-		player->dir.y = 0;
-		player->plane.x = 0;
-		player->plane.y = 0.66;
-	}
-	else
-	{
-		player->dir.x = 0;
-		player->dir.y = 0;
-		player->plane.x = 0;
-		player->plane.y = 0;
-	}
+	return (-1);
 }

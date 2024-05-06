@@ -12,24 +12,31 @@
 
 #include "cub3d.h"
 
+void start_game(t_game *game)
+{
+	movement(W_KEY, game, &game->player, game->map.map_arr);
+	mlx_hook(game->win_ptr, KeyPress, KeyPressMask, key_press_handler, game);
+	mlx_hook(game->win_ptr, ON_MOUSEMOVE, PointerMotionMask, mouse_handler, game);
+	mlx_hook(game->win_ptr, ON_DESTROY, 0, close_window, game);
+	mlx_loop(game->mlx_ptr);
+}
+
 int main(int argc, char **argv)
 {
 	t_game game;
 
 	if (argc == 2)
 	{
-		game.mlx_ptr = mlx_init();
-		init_map(&game, argv[1]);
-		init_colors(&game, &game.map);
-		init_textures(&game, &game.map);
-		init_game(&game, &game.map);
-		init_window(&game);
-		draw_grid(&game, &game.map);
-		raycast(&game, &game.player, &game.ray);
-		render_to_window(&game, &game.minimap, 0, game.display.y);
-		render_to_window(&game, &game.display, 0, 0);
-		mlx_hook(game.win_ptr, KeyPress, KeyPressMask, key_press_handler, &game);
-		mlx_hook(game.win_ptr, 17, 0, end_game, &game);
-		mlx_loop(game.mlx_ptr);
+		if (!init_game_struct(&game) && \
+			!init_map(&game, argv[1]) && \
+			!init_colors(&game, &game.map) && \
+			!init_textures(&game, &game.map) && \
+			!init_window(&game) && \
+			!init_player_pos(&game.map, &game.player))
+		{
+			render_frame(&game, &game.player);
+			start_game(&game);
+		}
+		end_game(&game, EXIT_FAILURE);
 	}
 }

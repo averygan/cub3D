@@ -36,10 +36,7 @@ void rotate(t_game *game, t_player *player, int keysym)
 		player->plane.x = player->plane.x * cos(ROTSPEED) - player->plane.y * sin(ROTSPEED);
 		player->plane.y = old_planex * sin(ROTSPEED) + player->plane.y * cos(ROTSPEED);
 	}
-	draw_grid(game, &game->map);
-	raycast(game, player, &game->ray);
-	render_to_window(game, &game->display, 0, 0);
-	render_to_window(game, &game->minimap, 0, game->display.y);
+	render_frame(game, &game->player);
 }
 
 void movement(int keysym, t_game *game, t_player *player, char **map_arr)
@@ -47,25 +44,20 @@ void movement(int keysym, t_game *game, t_player *player, char **map_arr)
 	// printf("map_arr[%i][%i]\n", (int)(player->pos.x + player->dir.x * MOVESPEED), (int)(player->pos.y));
 	// move forward
 	// printf("player pos x: %f y: %f\n", player->pos.x, player->pos.y);
-	if (map_arr)
-		print_arr(map_arr);
 	if (keysym == W_KEY)
 	{
-		if (map_arr[(int)(player->pos.y)][(int)(player->pos.x + player->dir.x * MOVESPEED)] != 1)
+		if (map_arr[(int)(player->pos.y)][(int)(player->pos.x + player->dir.x * MOVESPEED)] != '1')
 			player->pos.x += player->dir.x * MOVESPEED;
-		if (map_arr[(int)(player->pos.y + player->dir.y * MOVESPEED)][(int)(player->pos.x)] != 1)
+		if (map_arr[(int)(player->pos.y + player->dir.y * MOVESPEED)][(int)(player->pos.x)] != '1')
 			player->pos.y += player->dir.y * MOVESPEED;
 	}
 	// move backwards
 	else if (keysym == S_KEY)
 	{
-		if (map_arr[(int)(player->pos.y)][(int)(player->pos.x - player->dir.x * MOVESPEED)] != 1)
+		if (map_arr[(int)(player->pos.y)][(int)(player->pos.x - player->dir.x * MOVESPEED)] != '1')
 			player->pos.x -= player->dir.x * MOVESPEED;
-		if (map_arr[(int)(player->pos.y - player->dir.y * MOVESPEED)][(int)(player->pos.x)] != 1)
+		if (map_arr[(int)(player->pos.y - player->dir.y * MOVESPEED)][(int)(player->pos.x)] != '1')
 			player->pos.y -= player->dir.y * MOVESPEED;
 	}
-	draw_grid(game, &game->map);
-	raycast(game, player, &game->ray);
-	render_to_window(game, &game->display, 0, 0);
-	render_to_window(game, &game->minimap, 0, game->display.y);
+	render_frame(game, &game->player);
 }

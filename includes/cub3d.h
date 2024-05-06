@@ -13,6 +13,8 @@
 #ifndef CUB3D_H
 # define CUB3D_H
 
+# include "raycast.h"
+# include "error.h"
 # include <math.h>
 # include <X11/Xlib.h>
 # include <X11/keysym.h>
@@ -40,21 +42,33 @@
 # define RIGHT_KEY 65363
 # define ESC 65307
 # define ON_DESTROY 17
+# define ON_MOUSEMOVE 6
 
-/* define minimap colours */
+/* define minimap colours and components */
 # define WALL_COLOR 0x264653
 # define TILE_COLOR 0xFFEDDA
-# define PLAYER_COLOR 0xAAAAA
-# define RAY_COLOR 0xFF0000
+# define LINE_COLOR 0x0C343D
+# define RAY_COLOR 0xDC4444
+# define TILE_SIZE 8
+# define RADIUS 4
 
 /* define dimensions */
-# define TILE_SIZE 32
+/* define dimensions */
+# define SCREEN_WIDTH 960
+# define SCREEN_HEIGHT 720
 # define TEXTURE_WIDTH 64
 # define TEXTURE_HEIGHT 64
 # define TEXTURE_COUNT 6
+# define WALL_COUNT 4
 
-# define MOVESPEED 0.0450
-# define ROTSPEED 0.0180
+# define MOVESPEED 0.050
+# define ROTSPEED 0.0150
+
+/* text colour */
+# define BROWN "\033[1;33m"
+# define RED "\033[1;31m"
+# define GREEN "\033[1;32m"
+# define RESET "\033[0m"
 
 enum e_textures
 {
@@ -81,6 +95,19 @@ enum e_dir
 	W,
 };
 
+enum e_error
+{
+	MEM_ERR,
+	MAP_SYNTAX_ERR,
+	MAP_NOT_CLOSED_ERR,
+	ELE_ERR,
+	ELE_COUNT_ERR,
+	FILE_EXT_ERR,
+	FILE_ERR,
+	TEXTURE_PATH_ERR,
+	RGB_ERR,
+};
+
 /* structs */
 typedef struct s_img
 {
@@ -93,52 +120,6 @@ typedef struct s_img
 	int		endian;
 	unsigned int **colors;
 }	t_img;
-
-typedef struct s_pos_i
-{
-	int	x;
-	int	y;
-}	t_pos_i;
-
-typedef struct s_pos
-{
-	double	x;
-	double	y;
-}	t_pos;
-
-typedef struct s_wall
-{
-	double dist;
-	int start;
-	int end;
-	t_pos_i texture;
-	double step;
-	double texpos;
-	unsigned int **colors;
-}	t_wall;
-
-typedef struct s_ray
-{
-	t_pos	camera;
-	t_pos	dir; //ray direction
-	t_pos	sidedist;
-	t_pos	deltadist;
-	double 	perpwalldist;
-	int 	lineheight;
-	t_pos_i	map;
-	t_pos_i	step;
-	int 	side;
-	int 	wall_found;
-	t_wall	wall;
-}	t_ray;
-
-typedef struct s_player
-{
-	t_pos	pos;
-	int		starting_dir;
-	t_pos	dir; //player direction
-	t_pos	plane; //camera plane of the player
-}	t_player;
 
 typedef struct s_map
 {
@@ -166,48 +147,55 @@ typedef struct s_game
 	t_player	player;
 	t_ray		ray;
 	t_img		walls[4];
-	int	*f_color;
-	int	*c_color;
+	int			*f_color;
+	int		*c_color;
 	unsigned int	floor;
 	unsigned int	ceiling;
 }	t_game;
 
 /* color */
-void	init_colors(t_game *game, t_map *map);
+int	init_colors(t_game *game, t_map *map);
 bool	is_whitespace(char c);
 
 /* image utils */
 void	render_to_window(t_game *game, t_img *image, int x, int y);
 void	get_texture_info(t_img *texture);
-void	new_texture(t_game *game, t_img *texture, char *path);
+int		new_texture(t_game *game, t_img *texture, char *path);
 char	*get_pixel_pos(t_img *image, int x, int y);
 void	ft_put_pixel(t_img *image, int x, int y, unsigned int colour);
 
 /* draw */
 void	draw_grid(t_game *game, t_map *map);
-void	init_textures(t_game *game, t_map *map);
-void	init_window(t_game *game);
+int	init_textures(t_game *game, t_map *map);
+int	init_window(t_game *game);
 int		is_player(char c);
 
 /* init */
+int	init_game_struct(t_game *game);
 void	init_game(t_game *game, t_map *map);
 
 /* init player */
 void player_dir(t_player *player);
-void	init_player(t_game *game, t_map *map);
+int	init_player_pos(t_map *map, t_player *player);
 
 /* misc */
 int	key_handler(int keysym, t_game *game);
-int	end_game(t_game *game);
+int	end_game(t_game *game, int exit_code);
+int	close_window(t_game *game);
+int	mouse_handler(int x, int y, t_game *game);
+
+/* free data */
+void	free_arrays(char **array);
+void	free_images(t_game *game);
+void	free_colors(t_game *game);
+void	free_map(t_game *game);
+
+/* error */
+void	print_err(int err);
+void	print_map_not_closed(int row, int col);
 
 /* map initialization */
 int init_map(t_game *game, char *map_name);
-
-/* draw ray */
-void	draw_ray(t_img *display, t_ray *ray, t_player *player, char **map);
-
-/* render wall */
-void render_wall(t_game *game, t_ray *ray, int x);
 
 /* map utils */
 char	*strjoin_free(char *s1, char *s2);
@@ -218,9 +206,6 @@ int		map_valid_syntax(char map_c);
 
 /* map checker */
 int map_checker(t_map *map, char **map_arr);
-
-/* raycast */
-void raycast(t_game *game, t_player *player, t_ray *ray);
 
 /* texture checker */
 char	*texture_whitespace(char *texture);

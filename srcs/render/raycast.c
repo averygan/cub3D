@@ -32,20 +32,6 @@ calculate height of wall
 	lineheight = (int)(h / perpwalldist)
 */
 
-// void raycast(t_game *game, t_data *player, t_ray *ray)
-// {
-// 	player->dir.x = -1;
-// 	player->dir.y = 0;
-// 	ray->plane.x = 0; 
-// 	ray->plane.y = 0.66;
-// 	for (int x = 0; x < game->map.map_width; x++)
-// 	{
-// 		ray->camera.x = 2 * x / game->map.map_width - 1;
-// 		ray->dir.x = ray->dir.x + ray->plane.x * ray->camera.x;
-// 		ray->dir.y = ray->dir.y + ray->plane.y * ray->camera.x;
-// 	}
-// }
-
 /* init ray variables */
 void init_ray(t_ray *ray)
 {
@@ -120,9 +106,14 @@ void init_raycast(t_player player, t_ray *ray, int x, int width)
 	ray->wall_found = 0;
 }
 
-/* dda algorithm 
-loop to check next box until wall met */
-void dda(t_game *game, t_map *map, t_ray *ray)
+/* DDA: digital differential algorithm 
+loop to check next box until wall found	
+	if (sideDistX < sideDist)
+		deltadistX until wall found
+	else
+		deltadistY until wall found 
+	check if ray has found a wall */
+void dda(t_map *map, t_ray *ray)
 {
 	while (!ray->wall_found)
 	{
@@ -140,9 +131,8 @@ void dda(t_game *game, t_map *map, t_ray *ray)
 		}
 		if (map->map_arr[ray->map.y][ray->map.x] == '1')
 		{
-			// printf("wall found at %i, %i\n", ray->map.x, ray->map.y);
 			ray->wall_found = 1;
-			draw_ray(&game->minimap, ray, &game->player, game->map.map_arr);
+			// draw_ray(&game->minimap, ray, &game->player, game->map.map_arr);
 		}
 	}
 }
@@ -158,11 +148,8 @@ void raycast(t_game *game, t_player *player, t_ray *ray)
 	{
 		init_raycast(*player, ray, i, game->display.x);
 		calc_raycast(*player, ray);
-		dda(game, &game->map, ray);
-		// if (ray->side == 0)
-		// 	printf("dir y is %f\n", ray->dir.y);
+		dda(&game->map, ray);
 		render_wall(game, ray, i);
 		i++;
 	}
-	render_to_window(game, &game->display, 0, 0);
 }

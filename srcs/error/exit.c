@@ -12,8 +12,11 @@
 
 #include "cub3d.h"
 
-int	end_game(t_game *game)
+int	end_game(t_game *game, int exit_code)
 {
+	free_map(game);
+	free_colors(game);
+	free_images(game);
 	if (game->win_ptr)
 		mlx_destroy_window(game->mlx_ptr, game->win_ptr);
 	if (game->mlx_ptr)
@@ -21,12 +24,11 @@ int	end_game(t_game *game)
 		mlx_destroy_display(game->mlx_ptr);
 		free(game->mlx_ptr);
 	}
-	exit(0);
+	exit(exit_code);
 }
 
-int	key_handler(int keysym, t_game *game)
+int	close_window(t_game *game)
 {
-	if (keysym == XK_Escape)
-		end_game(game);
+	end_game(game, EXIT_SUCCESS);
 	return (0);
 }

@@ -15,19 +15,21 @@
 /* Create a blank mlx image for drawing pixel by pixel */
 void	new_canvas(t_game *game, t_img *image)
 {
-	image->ptr = mlx_new_image(game->mlx_ptr,
-		game->display.x, game->display.y);
+	image->ptr = mlx_new_image(game->mlx_ptr, image->x, image->y);
 	get_texture_info(image);
+	image->colors = NULL;
 }
 
 /* Create window based on the dimensions of the map */
-void	init_window(t_game *game)
+int	init_window(t_game *game)
 {
-	game->display.x = game->map.map_width * TILE_SIZE;
-	game->display.y = game->map.map_height * TILE_SIZE;
+	game->display.x = SCREEN_WIDTH;
+	game->display.y = SCREEN_HEIGHT;
 	game->win_ptr = mlx_new_window(game->mlx_ptr,
-		game->display.x, game->display.y * 2, "cub3d");
+			game->display.x, game->display.y, "cub3d");
 	new_canvas(game, &game->display);
+	game->minimap.x = game->map.map_width * TILE_SIZE;
+	game->minimap.y = game->map.map_height * TILE_SIZE;
 	new_canvas(game, &game->minimap);
-	get_texture_info(&game->display);
+	return (0);
 }

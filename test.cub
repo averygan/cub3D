@@ -1,21 +1,17 @@
-NO ./assets/wolfenstein/xpm/grey_stone.xpm
+NO ./assets/wolfenstein/xpm/mossy.xpm
 
 C 0,0,0
 
 
 
 
-SO ./assets/wolfenstein/xpm/mossy.xpm
+SO ./assets/wolfenstein/xpm/grey_stone.xpm
 
 
+WE ./assets/wolfenstein/xpm/eagle.xpm
 
 
-
-
-WE ./assets/wolfenstein/xpm/color_stone.xpm
-
-
-EA ./assets/wolfenstein/xpm/color_stone.xpm
+EA ./assets/wolfenstein/xpm/eagle.xpm
 
 
 

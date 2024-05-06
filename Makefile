@@ -39,28 +39,29 @@ MAP_SRCS = $(addprefix srcs/map/, $(MAP))
 
 INIT = init_window.c \
 	init_texture.c \
+	init_colors.c \
 	init_game.c \
-	init_player.c
+	init_player.c \
+	texture_utils.c 
 INIT_SRCS = $(addprefix srcs/init/, $(INIT))
 
 ERROR = error.c \
-	exit.c
+	exit.c \
+	free_data.c
 ERROR_SRCS = $(addprefix srcs/error/, $(ERROR))
 
 RENDER = raycast.c \
-	texture_utils.c \
-	color.c \
-	draw.c \
+	draw_map.c \
 	draw_ray.c \
 	draw_wall.c \
-	draw_texture.c
+	render_utils.c
 RENDER_SRCS = $(addprefix srcs/render/, $(RENDER))
 
 MOVEMENT = rotate.c \
 	event_handler.c
 MOVEMENT_SRCS = $(addprefix srcs/movement/, $(MOVEMENT))
 
-SRCS = srcs/main.c $(MAP_SRCS) $(ERROR_SRCS) $(RENDER_SRCS) $(INIT_SRCS) $(MOVEMENT_SRCS)
+SRCS = srcs/init/main.c $(MAP_SRCS) $(ERROR_SRCS) $(RENDER_SRCS) $(INIT_SRCS) $(MOVEMENT_SRCS)
 OBJS = $(SRCS:.c=.o)
 
 #------------------------------------------------------------------------

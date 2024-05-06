@@ -45,7 +45,7 @@ char	*strjoin_free(char *s1, char *s2)
 
 void free_arr(char **arr)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (!arr)
@@ -61,7 +61,7 @@ void free_arr(char **arr)
 
 void print_arr(char **arr)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (!arr)
@@ -77,14 +77,16 @@ void print_arr(char **arr)
 /* function to get height and length, dup map arr */
 char **dup_map_arr(char **map_arr)
 {
-	int i;
-	char **dup_arr;
+	int		i;
+	char	**dup_arr;
 
 	dup_arr = NULL;
 	i = 0;
 	while (map_arr[i])
 		i++;
 	dup_arr = malloc(sizeof(char *) * (i + 1));
+	if (!dup_arr)
+		return (NULL);
 	i = 0;
 	while (map_arr[i])
 	{
