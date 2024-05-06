@@ -28,7 +28,7 @@ int main(int argc, char **argv)
 		raycast(&game, &game.player, &game.ray);
 		render_to_window(&game, &game.minimap, 0, game.display.y);
 		render_to_window(&game, &game.display, 0, 0);
-		mlx_key_hook(game.win_ptr, key_handler, &game);
+		mlx_hook(game.win_ptr, KeyPress, KeyPressMask, key_press_handler, &game);
 		mlx_hook(game.win_ptr, 17, 0, end_game, &game);
 		mlx_loop(game.mlx_ptr);
 	}

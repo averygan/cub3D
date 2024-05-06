@@ -164,4 +164,5 @@ void raycast(t_game *game, t_player *player, t_ray *ray)
 		render_wall(game, ray, i);
 		i++;
 	}
+	render_to_window(game, &game->display, 0, 0);
 }

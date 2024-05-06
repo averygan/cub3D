@@ -29,6 +29,18 @@
 # define WALL '1'
 # define EMPTY '0'
 
+/* define keys */
+# define W_KEY 119
+# define S_KEY 115
+# define A_KEY 97
+# define D_KEY 100
+# define UP_KEY 65362
+# define DOWN_KEY 65364
+# define LEFT_KEY 65361
+# define RIGHT_KEY 65363
+# define ESC 65307
+# define ON_DESTROY 17
+
 /* define minimap colours */
 # define WALL_COLOR 0x264653
 # define TILE_COLOR 0xFFEDDA
@@ -40,6 +52,9 @@
 # define TEXTURE_WIDTH 64
 # define TEXTURE_HEIGHT 64
 # define TEXTURE_COUNT 6
+
+# define MOVESPEED 0.0450
+# define ROTSPEED 0.0180
 
 enum e_textures
 {
@@ -211,5 +226,10 @@ void raycast(t_game *game, t_player *player, t_ray *ray);
 char	*texture_whitespace(char *texture);
 int		texture_parser(t_map *map, char **split_map);
 int		texture_checker(t_map *map, char **split_map);
+
+/* movement */
+int key_press_handler(int keysym, t_game *game);
+void movement(int keysym, t_game *game, t_player *player, char **map_arr);
+void rotate(t_game *game, t_player *player, int keysym);
 
 #endif

@@ -56,7 +56,11 @@ RENDER = raycast.c \
 	draw_texture.c
 RENDER_SRCS = $(addprefix srcs/render/, $(RENDER))
 
-SRCS = srcs/main.c $(MAP_SRCS) $(ERROR_SRCS) $(RENDER_SRCS) $(INIT_SRCS)
+MOVEMENT = rotate.c \
+	event_handler.c
+MOVEMENT_SRCS = $(addprefix srcs/movement/, $(MOVEMENT))
+
+SRCS = srcs/main.c $(MAP_SRCS) $(ERROR_SRCS) $(RENDER_SRCS) $(INIT_SRCS) $(MOVEMENT_SRCS)
 OBJS = $(SRCS:.c=.o)
 
 #------------------------------------------------------------------------
