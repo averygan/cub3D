@@ -12,36 +12,41 @@
 
 #include "cub3d.h"
 
-/* function to rotate dir and plane left and right */
-void	rotate(t_game *game, t_player *player, int keysym)
+/* function to rotate dir and plane left */
+void	rotate_left(t_game *game, t_player *player)
 {
 	double	old_dirx;
 	double	old_planex;
 
 	old_dirx = player->dir.x;
 	old_planex = player->plane.x;
-	if (keysym == A_KEY || keysym == LEFT_KEY)
-	{
-		player->dir.x = player->dir.x * cos(-ROTSPEED)
-			- player->dir.y * sin(-ROTSPEED);
-		player->dir.y = old_dirx * sin(-ROTSPEED)
-			+ player->dir.y * cos(-ROTSPEED);
-		player->plane.x = player->plane.x * cos(-ROTSPEED)
-			- player->plane.y * sin(-ROTSPEED);
-		player->plane.y = old_planex * sin(-ROTSPEED)
-			+ player->plane.y * cos(-ROTSPEED);
-	}
-	else if (keysym == D_KEY || keysym == RIGHT_KEY)
-	{
-		player->dir.x = player->dir.x * cos(ROTSPEED)
-			- player->dir.y * sin(ROTSPEED);
-		player->dir.y = old_dirx * sin(ROTSPEED)
-			+ player->dir.y * cos(ROTSPEED);
-		player->plane.x = player->plane.x * cos(ROTSPEED)
-			- player->plane.y * sin(ROTSPEED);
-		player->plane.y = old_planex * sin(ROTSPEED)
-			+ player->plane.y * cos(ROTSPEED);
-	}
+	player->dir.x = player->dir.x * cos(-ROTSPEED)
+		- player->dir.y * sin(-ROTSPEED);
+	player->dir.y = old_dirx * sin(-ROTSPEED)
+		+ player->dir.y * cos(-ROTSPEED);
+	player->plane.x = player->plane.x * cos(-ROTSPEED)
+		- player->plane.y * sin(-ROTSPEED);
+	player->plane.y = old_planex * sin(-ROTSPEED)
+		+ player->plane.y * cos(-ROTSPEED);
+	render_frame(game, &game->player);
+}
+
+/* function to rotate dir and plane right */
+void	rotate_right(t_game *game, t_player *player)
+{
+	double	old_dirx;
+	double	old_planex;
+
+	old_dirx = player->dir.x;
+	old_planex = player->plane.x;
+	player->dir.x = player->dir.x * cos(ROTSPEED)
+		- player->dir.y * sin(ROTSPEED);
+	player->dir.y = old_dirx * sin(ROTSPEED)
+		+ player->dir.y * cos(ROTSPEED);
+	player->plane.x = player->plane.x * cos(ROTSPEED)
+		- player->plane.y * sin(ROTSPEED);
+	player->plane.y = old_planex * sin(ROTSPEED)
+		+ player->plane.y * cos(ROTSPEED);
 	render_frame(game, &game->player);
 }
 
