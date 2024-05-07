@@ -31,7 +31,8 @@ void	set_color(unsigned int *color, t_game *game, char **map, t_pos_i grid)
 /* Draw an individual tile on the map
 - Check the map component to determine what colour to use
 - Set the last column (end.x) as the start pos + the width of one tile
-- For every row until the last row (end.y), draw one line until the end column */
+- For every row until the last row (end.y), 
+draw one line until the end column */
 void	draw_tile(t_game *game, char **map, t_pos_i grid, t_pos_i screen)
 {
 	unsigned int	current_color;

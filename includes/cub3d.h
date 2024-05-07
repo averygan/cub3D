@@ -111,14 +111,14 @@ enum e_error
 /* structs */
 typedef struct s_img
 {
-	void	*ptr;
-	void	*addr;
-	int		x;
-	int		y;
-	int		bpp;
-	int		line_size;
-	int		endian;
-	unsigned int **colors;
+	void			*ptr;
+	void			*addr;
+	int				x;
+	int				y;
+	int				bpp;
+	int				line_size;
+	int				endian;
+	unsigned int	**colors;
 }	t_img;
 
 typedef struct s_map
@@ -139,22 +139,22 @@ typedef struct s_map
 
 typedef struct s_game
 {
-	void		*mlx_ptr;
-	void		*win_ptr;
-	t_img		display;
-	t_img		minimap;
-	t_map		map;
-	t_player	player;
-	t_ray		ray;
-	t_img		walls[4];
-	int			*f_color;
-	int		*c_color;
+	void			*mlx_ptr;
+	void			*win_ptr;
+	t_img			display;
+	t_img			minimap;
+	t_map			map;
+	t_player		player;
+	t_ray			ray;
+	t_img			walls[4];
+	int				*f_color;
+	int				*c_color;
 	unsigned int	floor;
 	unsigned int	ceiling;
 }	t_game;
 
 /* color */
-int	init_colors(t_game *game, t_map *map);
+int		init_colors(t_game *game, t_map *map);
 bool	is_whitespace(char c);
 
 /* image utils */
@@ -166,23 +166,23 @@ void	ft_put_pixel(t_img *image, int x, int y, unsigned int colour);
 
 /* draw */
 void	draw_grid(t_game *game, t_map *map);
-int	init_textures(t_game *game, t_map *map);
-int	init_window(t_game *game);
+int		init_textures(t_game *game, t_map *map);
+int		init_window(t_game *game);
 int		is_player(char c);
 
 /* init */
-int	init_game_struct(t_game *game);
+int		init_game_struct(t_game *game);
 void	init_game(t_game *game, t_map *map);
 
 /* init player */
-void player_dir(t_player *player);
-int	init_player_pos(t_map *map, t_player *player);
+void	player_dir(t_player *player);
+int		init_player_pos(t_map *map, t_player *player);
 
 /* misc */
-int	key_handler(int keysym, t_game *game);
-int	end_game(t_game *game, int exit_code);
-int	close_window(t_game *game);
-int	mouse_handler(int x, int y, t_game *game);
+int		key_handler(int keysym, t_game *game);
+int		end_game(t_game *game, int exit_code);
+int		close_window(t_game *game);
+int		mouse_handler(int x, int y, t_game *game);
 
 /* free data */
 void	free_arrays(char **array);
@@ -195,7 +195,7 @@ void	print_err(int err);
 void	print_map_not_closed(int row, int col);
 
 /* map initialization */
-int init_map(t_game *game, char *map_name);
+int		init_map(t_game *game, char *map_name);
 
 /* map utils */
 char	*strjoin_free(char *s1, char *s2);
@@ -205,7 +205,12 @@ char	**dup_map_arr(char **map_arr);
 int		map_valid_syntax(char map_c);
 
 /* map checker */
-int map_checker(t_map *map, char **map_arr);
+int		map_checker(t_map *map, char **map_arr);
+
+/* checker utils */
+char	**dup_tmp_map(t_map *map);
+void	map_height_width(t_map *map, char **map_arr);
+void	replace_map_spaces(char **map_arr);
 
 /* texture checker */
 char	*texture_whitespace(char *texture);
@@ -213,8 +218,8 @@ int		texture_parser(t_map *map, char **split_map);
 int		texture_checker(t_map *map, char **split_map);
 
 /* movement */
-int key_press_handler(int keysym, t_game *game);
-void movement(int keysym, t_game *game, t_player *player, char **map_arr);
-void rotate(t_game *game, t_player *player, int keysym);
+int		key_press_handler(int keysym, t_game *game);
+void	movement(int keysym, t_game *game, t_player *player, char **map_arr);
+void	rotate(t_game *game, t_player *player, int keysym);
 
 #endif

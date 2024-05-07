@@ -12,7 +12,7 @@
 
 #include "cub3d.h"
 
-void render_frame(t_game *game, t_player *player)
+void	render_frame(t_game *game, t_player *player)
 {
 	draw_grid(game, &game->map);
 	raycast(game, player, &game->ray);

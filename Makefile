@@ -34,7 +34,8 @@ endif
 MAP = init_map.c \
 	map_checker.c \
 	map_utils.c \
-	texture_checker.c
+	texture_checker.c \
+	checker_utils.c
 MAP_SRCS = $(addprefix srcs/map/, $(MAP))
 
 INIT = init_window.c \
@@ -52,9 +53,9 @@ ERROR_SRCS = $(addprefix srcs/error/, $(ERROR))
 
 RENDER = raycast.c \
 	draw_map.c \
-	draw_ray.c \
 	draw_wall.c \
-	render_utils.c
+	render_utils.c \
+	set_texture.c
 RENDER_SRCS = $(addprefix srcs/render/, $(RENDER))
 
 MOVEMENT = rotate.c \

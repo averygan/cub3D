@@ -31,8 +31,8 @@ int	set_player_dir(t_player *player, char c)
 
 int	init_player_pos(t_map *map, t_player *player)
 {
-	int row;
-	int col;
+	int	row;
+	int	col;
 
 	row = 0;
 	while (map->map_arr[row])

@@ -13,11 +13,9 @@
 #ifndef RAYCAST_H
 # define RAYCAST_H
 
-typedef struct s_game t_game;
-
-typedef struct s_map t_map;
-
-typedef struct s_img t_img;
+typedef struct s_game	t_game;
+typedef struct s_map	t_map;
+typedef struct s_img	t_img;
 
 typedef struct s_pos_i
 {
@@ -33,27 +31,27 @@ typedef struct s_pos
 
 typedef struct s_wall
 {
-	double		dist;
-	int 		start;
-	int			end;
-	t_pos_i		texture;
-	double		step;
-	double		texpos;
+	double			dist;
+	int				start;
+	int				end;
+	t_pos_i			texture;
+	double			step;
+	double			texpos;
 	unsigned int	**colors;
 }	t_wall;
 
 typedef struct s_ray
 {
 	t_pos	camera;
-	t_pos	dir; //ray direction
+	t_pos	dir;
 	t_pos	sidedist;
 	t_pos	deltadist;
-	double 	perpwalldist;
-	int 	lineheight;
+	double	perpwalldist;
+	int		lineheight;
 	t_pos_i	map;
 	t_pos_i	step;
-	int 	side;
-	int 	wall_found;
+	int		side;
+	int		wall_found;
 	t_wall	wall;
 }	t_ray;
 
@@ -61,8 +59,8 @@ typedef struct s_player
 {
 	int		starting_dir;
 	t_pos	pos;
-	t_pos	dir; //player direction
-	t_pos	plane; //camera plane of the player
+	t_pos	dir;
+	t_pos	plane;
 }	t_player;
 
 /* draw ray */
@@ -74,9 +72,15 @@ void	raycast(t_game *game, t_player *player, t_ray *ray);
 /* render wall */
 void	render_wall(t_game *game, t_ray *ray, int x);
 
+/* set texture */
+void	calc_texture(t_game *game, t_ray *ray,
+			t_player *player, t_wall *wall);
+void	set_texture_pixel(t_game *game, t_ray *ray, t_wall *wall);
+
 /* render utils */
 void	render_frame(t_game *game, t_player *player);
 
+/* render player position */
 void	draw_player_pos(t_game *game, t_player *player);
 
 #endif

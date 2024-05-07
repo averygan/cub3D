@@ -27,9 +27,9 @@ int	mouse_handler(int x, int y, t_game *game)
 
 int key_press_handler(int keysym, t_game *game)
 {
-	if (keysym == W_KEY || keysym == S_KEY)
+	if (keysym == W_KEY || keysym == S_KEY || keysym == UP_KEY || keysym == DOWN_KEY)
 		movement(keysym, game, &game->player, game->map.map_arr);
-	else if (keysym == A_KEY || keysym == D_KEY)
+	else if (keysym == A_KEY || keysym == D_KEY || keysym == LEFT_KEY || keysym == RIGHT_KEY)
 		rotate(game, &game->player, keysym);
 	else if (keysym == XK_Escape)
 		end_game(game, EXIT_SUCCESS);

@@ -12,18 +12,19 @@
 
 #include "cub3d.h"
 
-void start_game(t_game *game)
+void	start_game(t_game *game)
 {
 	movement(W_KEY, game, &game->player, game->map.map_arr);
 	mlx_hook(game->win_ptr, KeyPress, KeyPressMask, key_press_handler, game);
-	mlx_hook(game->win_ptr, ON_MOUSEMOVE, PointerMotionMask, mouse_handler, game);
+	mlx_hook(game->win_ptr, ON_MOUSEMOVE, PointerMotionMask, \
+		mouse_handler, game);
 	mlx_hook(game->win_ptr, ON_DESTROY, 0, close_window, game);
 	mlx_loop(game->mlx_ptr);
 }
 
-int main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
-	t_game game;
+	t_game	game;
 
 	if (argc == 2)
 	{

@@ -13,7 +13,7 @@
 #include "cub3d.h"
 
 /* calculate perpendicular distance from player to wall */
-void calc_perpdist(t_ray *ray)
+void	calc_perpdist(t_ray *ray)
 {
 	if (ray->side == 0)
 		ray->perpwalldist = ray->sidedist.x - ray->deltadist.x;
@@ -24,14 +24,12 @@ void calc_perpdist(t_ray *ray)
 /* calculate height of wall to be drawn 
 lineheight = (int)(h/perpwalldist)
 set wall start and end for y-coords of the wall line */
-void calc_wall(t_ray *ray, t_wall *wall)
+void	calc_wall(t_ray *ray, t_wall *wall)
 {	
 	wall->start = 0;
 	wall->end = 0;
 	calc_perpdist(ray);
-	// calc line of height to draw
 	ray->lineheight = (int)(SCREEN_HEIGHT / ray->perpwalldist);
-	// calc highest and lowest pixel to fill in current stripe
 	wall->start = -ray->lineheight / 2 + SCREEN_HEIGHT / 2;
 	if (wall->start < 0)
 		wall->start = 0;
@@ -40,54 +38,10 @@ void calc_wall(t_ray *ray, t_wall *wall)
 		wall->end = SCREEN_HEIGHT - 1;
 }
 
-/* check which side the wall is facing and assign corresponding texture */
-void set_texture_pixel(t_game *game, t_ray *ray, t_wall *wall)
-{
-	if (ray->side == 0)
-	{
-		if (ray->dir.x > 0)
-			wall->colors = game->walls[E_EA].colors;
-		else
-			wall->colors = game->walls[E_WE].colors;
-	}
-	else
-	{
-		if (ray->dir.y < 0)
-			wall->colors = game->walls[E_NO].colors;
-		else
-			wall->colors = game->walls[E_SO].colors;
-	}
-}
-
-/* wall_x: calculate where the wall was hit 
-texture->x:
-	- if (side == x && ray->dir.x > 0)
-		ray hit the wall's x side on the positive side of x-axis
-	- if (side == y && ray->dir.y < 0)
-		ra hit the wall's y side on the negative side 
-calculate step increment of the wall's y-coord for each pixel on screen */
-void calc_texture(t_game *game, t_ray *ray, t_player *player, t_wall *wall)
-{
-	double wall_x;
-
-	if (ray->side == 0)
-		wall_x = player->pos.y + ray->perpwalldist * ray->dir.y;
-	else
-		wall_x = player->pos.x + ray->perpwalldist * ray->dir.x;
-	wall_x -= floor(wall_x);
-	wall->texture.x = (int)(wall_x * (double)TEXTURE_WIDTH);
-	if (ray->side == 0 && ray->dir.x > 0)
-		wall->texture.x = TEXTURE_WIDTH - wall->texture.x - 1;
-	if (ray->side == 1 && ray->dir.y < 0)
-		wall->texture.x = TEXTURE_WIDTH - wall->texture.x - 1;
-	wall->step = 1.0 * TEXTURE_HEIGHT / ray->lineheight;
-	wall->texpos = (wall->start - game->display.y / 2 + ray->lineheight / 2) * wall->step;
-}
-
 /* draw the floor and ceiling, skip over wall */
-void draw_floor_ceiling(t_game *game, t_wall wall, int x)
+void	draw_floor_ceiling(t_game *game, t_wall wall, int x)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i <= SCREEN_HEIGHT)
@@ -100,14 +54,12 @@ void draw_floor_ceiling(t_game *game, t_wall wall, int x)
 	}
 }
 
-void draw_wall(t_game *game, t_ray *ray, t_wall *wall, int x)
+void	draw_wall(t_game *game, t_ray *ray, t_wall *wall, int x)
 {
-	int i;
-	unsigned int color;
+	int				i;
+	unsigned int	color;
 
 	i = wall->start;
-	// if (ray->side == 0)
-		// printf("texture x is %i\n", wall->texture.x);
 	while (i < wall->end)
 	{
 		wall->texture.y = (int)wall->texpos & (TEXTURE_HEIGHT - 1);
@@ -121,10 +73,9 @@ void draw_wall(t_game *game, t_ray *ray, t_wall *wall, int x)
 	draw_floor_ceiling(game, *wall, x);
 }
 
-void render_wall(t_game *game, t_ray *ray, int x)
+void	render_wall(t_game *game, t_ray *ray, int x)
 {
 	calc_wall(ray, &ray->wall);
-	// printf("start is %i, end is %i\n", wall.start, wall.end);
 	set_texture_pixel(game, ray, &ray->wall);
 	calc_texture(game, ray, &game->player, &game->ray.wall);
 	draw_wall(game, ray, &ray->wall, x);

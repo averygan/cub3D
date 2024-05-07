@@ -18,10 +18,10 @@ bool	is_whitespace(char c)
 }
 
 /* returns a pointer to start of path after whitespace */
-char *texture_whitespace(char *texture)
+char	*texture_whitespace(char *texture)
 {
-	int i;
-	char *ret;
+	int		i;
+	char	*ret;
 
 	i = 0;
 	ret = NULL;
@@ -33,11 +33,11 @@ char *texture_whitespace(char *texture)
 }
 
 /* gets a malloc'ed string of path */
-int texture_parser(t_map *map, char **split_map)
+int	texture_parser(t_map *map, char **split_map)
 {
-	int i;
+	int	i;
 	int	j;
-	
+
 	i = -1;
 	while (++i < TEXTURE_COUNT)
 	{
@@ -57,7 +57,8 @@ int texture_parser(t_map *map, char **split_map)
 		else if (!ft_strncmp("C ", &split_map[i][j], 2))
 			map->textures[E_C] = texture_whitespace(&split_map[i][j + 1]);
 	}
-	if (!map->textures[E_NO] || !map->textures[E_SO] || !map->textures[E_EA] || !map->textures[E_WE] \
+	if (!map->textures[E_NO] || !map->textures[E_SO] || \
+		!map->textures[E_EA] || !map->textures[E_WE] \
 		|| !map->textures[E_F] || !map->textures[E_C])
 		return (print_err(TEXTURE_PATH_ERR), -1);
 	return (0);
@@ -66,9 +67,9 @@ int texture_parser(t_map *map, char **split_map)
 /* Checks first six lines 
 - error if formatting does not match no, so, ea, we, f, c
 - checks if count of each texture is 1 */
-int texture_checker(t_map *map, char **split_map)
+int	texture_checker(t_map *map, char **split_map)
 {
-	int i;
+	int	i;
 	int	j;
 
 	i = -1;
