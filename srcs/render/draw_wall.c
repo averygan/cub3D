@@ -54,6 +54,13 @@ void	draw_floor_ceiling(t_game *game, t_wall wall, int x)
 	}
 }
 
+/* Texture mapping to the current vertical strip (column) of the wall
+- Loop over every y-coordinate from the start to the end of the wall strip
+- Get the color of the pixel to draw
+- Adjust darker color for shading:
+	- RGB >> 1 & bitmask to get the correct value
+	- 011111110111111101111111 = 8355711 in decimal
+- Set the pixel on the game display */
 void	draw_wall(t_game *game, t_ray *ray, t_wall *wall, int x)
 {
 	int				i;
