@@ -87,19 +87,20 @@ char	**dup_tmp_map(t_map *map)
 	if (!dup_arr)
 		return (NULL);
 	i = -1;
+	map->tmp_map_width = map->map_width + 2;
 	while (map->map_arr[++i])
 	{
 		j = 0;
-		dup_arr[i] = malloc(sizeof(char) * (map->map_width + 3));
+		dup_arr[i] = malloc(sizeof(char) * (map->tmp_map_width + 1));
 		format_tmp_map(map, dup_arr, &i, &j);
 		dup_arr[i][j + 1] = '\0';
 		len = ft_strlen(dup_arr[i]);
-		while (len < map->map_width + 2)
+		while (len < map->tmp_map_width)
 		{
 			dup_arr[i][len] = '~';
 			len++;
 		}
-		dup_arr[i][map->map_width + 2] = '\0';
+		dup_arr[i][map->tmp_map_width] = '\0';
 	}
 	dup_arr[i] = NULL;
 	return (dup_arr);

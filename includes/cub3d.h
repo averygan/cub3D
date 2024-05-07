@@ -137,6 +137,7 @@ typedef struct s_map
 	int		player_count;
 	int		map_height;
 	int		map_width;
+	int		tmp_map_width;
 }	t_map;
 
 typedef struct s_game

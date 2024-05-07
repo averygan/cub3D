@@ -54,14 +54,14 @@ recursively run DFS on adjacent cells */
 bool	closed_recursive(t_map *map, char **tmp_map, int row, int col)
 {
 	if (row < 0 || col < 0 || row >= map->map_height || \
-		col >= map->map_width || tmp_map[row][col] != '~')
+		col >= map->tmp_map_width || tmp_map[row][col] != '~')
 		return (false);
 	tmp_map[row][col] = '*';
 	if ((row > 0 && tmp_map[row - 1][col] == '0') ||
 		(row < map->map_height - 1 && tmp_map[row + 1][col] == '0') ||
 		(col > 0 && tmp_map[row][col - 1] == '0') ||
-		(col < map->map_width - 1 && tmp_map[row][col + 1] == '0'))
-		return (true);
+		(col < map->tmp_map_width - 1 && tmp_map[row][col + 1] == '0'))
+		return (print_map_not_closed(row, col), true);
 	return (closed_recursive(map, tmp_map, row - 1, col) || \
 			closed_recursive(map, tmp_map, row + 1, col) || \
 			closed_recursive(map, tmp_map, row, col - 1) || \
@@ -78,12 +78,12 @@ bool	closed_checker(t_map *map, char **tmp_map)
 	while (row < map->map_height)
 	{
 		col = 0;
-		while (col < map->map_width)
+		while (col < map->tmp_map_width)
 		{
 			if (tmp_map[row][col] == '~')
 			{
 				if (closed_recursive(map, tmp_map, row, col))
-					return (print_map_not_closed(row, col), false);
+					return (false);
 			}
 			col++;
 		}
