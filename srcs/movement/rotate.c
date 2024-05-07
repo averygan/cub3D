@@ -54,7 +54,7 @@ void	rotate_right(t_game *game, t_player *player)
 based on player pos and dir * movement speed */
 void	movement(int keysym, t_game *game, t_player *player, char **map_arr)
 {
-	if (keysym == W_KEY || keysym == UP_KEY)
+	if (keysym == W_KEY)
 	{
 		if (map_arr[(int)(player->pos.y)][(int)(player->pos.x +
 			player->dir.x * MOVESPEED)] != '1')
@@ -63,7 +63,7 @@ void	movement(int keysym, t_game *game, t_player *player, char **map_arr)
 			[(int)(player->pos.x)] != '1')
 			player->pos.y += player->dir.y * MOVESPEED;
 	}
-	else if (keysym == S_KEY || keysym == DOWN_KEY)
+	else if (keysym == S_KEY)
 	{
 		if (map_arr[(int)(player->pos.y)]
 			[(int)(player->pos.x - player->dir.x * MOVESPEED)] != '1')
@@ -71,6 +71,31 @@ void	movement(int keysym, t_game *game, t_player *player, char **map_arr)
 		if (map_arr[(int)(player->pos.y - player->dir.y * MOVESPEED)]
 			[(int)(player->pos.x)] != '1')
 			player->pos.y -= player->dir.y * MOVESPEED;
+	}
+	render_frame(game, &game->player);
+}
+
+/* function to move left and right
+based on player pos and plane * movement speed */
+void	left_right_movement(int keysym, t_game *game, t_player *player, char **map_arr)
+{
+	if (keysym == D_KEY)
+	{
+		if (map_arr[(int)(player->pos.y)][(int)(player->pos.x +
+			player->plane.x * MOVESPEED)] != '1')
+			player->pos.x += player->plane.x * MOVESPEED;
+		if (map_arr[(int)(player->pos.y + player->dir.y * MOVESPEED)]
+			[(int)(player->pos.x)] != '1')
+			player->pos.y += player->plane.y * MOVESPEED;
+	}
+	else if (keysym == A_KEY)
+	{
+		if (map_arr[(int)(player->pos.y)]
+			[(int)(player->pos.x - player->plane.x * MOVESPEED)] != '1')
+			player->pos.x -= player->plane.x * MOVESPEED;
+		if (map_arr[(int)(player->pos.y - player->plane.y * MOVESPEED)]
+			[(int)(player->pos.x)] != '1')
+			player->pos.y -= player->plane.y * MOVESPEED;
 	}
 	render_frame(game, &game->player);
 }

@@ -27,12 +27,13 @@ int	mouse_handler(int x, int y, t_game *game)
 
 int	key_press_handler(int keysym, t_game *game)
 {
-	if (keysym == W_KEY || keysym == S_KEY || \
-		keysym == UP_KEY || keysym == DOWN_KEY)
+	if (keysym == W_KEY || keysym == S_KEY)
 		movement(keysym, game, &game->player, game->map.map_arr);
-	else if (keysym == A_KEY || keysym == LEFT_KEY)
+	if (keysym == A_KEY || keysym == D_KEY)
+		left_right_movement(keysym, game, &game->player, game->map.map_arr);
+	else if (keysym == LEFT_KEY)
 		rotate_left(game, &game->player);
-	else if (keysym == D_KEY || keysym == RIGHT_KEY)
+	else if (keysym == RIGHT_KEY)
 		rotate_right(game, &game->player);
 	else if (keysym == XK_Escape)
 		end_game(game, EXIT_SUCCESS);
