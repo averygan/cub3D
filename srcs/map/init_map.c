@@ -47,6 +47,7 @@ void	init_map_struct(t_game *game)
 	game->map.valid_we = 0;
 	game->map.valid_f = 0;
 	game->map.valid_c = 0;
+	game->map.player_count = 0;
 }
 
 char	*open_map(char *map_name)

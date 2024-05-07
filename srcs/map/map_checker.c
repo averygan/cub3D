@@ -33,16 +33,16 @@ int	map_syntax_checker(char **map)
 
 /* function to check if row contains all '1's, 
 checker for first and last rows */
-int	row_checker(char **map_arr, int i)
+int	row_checker(char **map_arr, int row)
 {
-	int	j;
+	int	col;
 
-	j = 0;
-	while (map_arr[i][j])
+	col = 0;
+	while (map_arr[row][col])
 	{
-		if (map_arr[i][j] != '1' && map_arr[i][j] != ' ')
-			return (-1);
-		j++;
+		if (map_arr[row][col] != '1' && map_arr[row][col] != ' ')
+			return (print_map_not_closed(row, col), -1);
+		col++;
 	}
 	return (0);
 }

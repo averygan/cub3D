@@ -32,8 +32,8 @@ int	main(int argc, char **argv)
 			!init_map(&game, argv[1]) && \
 			!init_colors(&game, &game.map) && \
 			!init_textures(&game, &game.map) && \
-			!init_window(&game) && \
-			!init_player_pos(&game.map, &game.player))
+			!init_player_pos(&game.map, &game.player) && \
+			!init_window(&game))
 		{
 			render_frame(&game, &game.player);
 			start_game(&game);

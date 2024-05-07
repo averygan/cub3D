@@ -12,13 +12,6 @@
 
 #include "cub3d.h"
 
-/* Call mlx_get_data_addr to get the info of the specified image */
-void	get_texture_info(t_img *texture)
-{
-	texture->addr = mlx_get_data_addr(texture->ptr, &texture->bpp,
-			&texture->line_size, &texture->endian);
-}
-
 /* Create a 2D array of every pixel color in the texture
 - Stores the values by column, since walls are drawn vertically */
 int	store_texture_colors(t_img *texture)

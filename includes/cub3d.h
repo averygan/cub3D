@@ -53,7 +53,6 @@
 # define RADIUS 4
 
 /* define dimensions */
-/* define dimensions */
 # define SCREEN_WIDTH 960
 # define SCREEN_HEIGHT 720
 # define TEXTURE_WIDTH 64
@@ -61,6 +60,7 @@
 # define TEXTURE_COUNT 6
 # define WALL_COUNT 4
 
+/* define movement/rotation speed */
 # define MOVESPEED 0.050
 # define ROTSPEED 0.0150
 
@@ -106,6 +106,7 @@ enum e_error
 	FILE_ERR,
 	TEXTURE_PATH_ERR,
 	RGB_ERR,
+	PLAYER_ERR,
 };
 
 /* structs */
@@ -133,6 +134,7 @@ typedef struct s_map
 	int		valid_we;
 	int		valid_f;
 	int		valid_c;
+	int		player_count;
 	int		map_height;
 	int		map_width;
 }	t_map;
@@ -155,7 +157,6 @@ typedef struct s_game
 
 /* color */
 int		init_colors(t_game *game, t_map *map);
-bool	is_whitespace(char c);
 
 /* image utils */
 void	render_to_window(t_game *game, t_img *image, int x, int y);
@@ -178,11 +179,9 @@ void	init_game(t_game *game, t_map *map);
 void	player_dir(t_player *player);
 int		init_player_pos(t_map *map, t_player *player);
 
-/* misc */
-int		key_handler(int keysym, t_game *game);
+/* exit */
 int		end_game(t_game *game, int exit_code);
 int		close_window(t_game *game);
-int		mouse_handler(int x, int y, t_game *game);
 
 /* free data */
 void	free_arrays(char **array);
@@ -217,8 +216,15 @@ char	*texture_whitespace(char *texture);
 int		texture_parser(t_map *map, char **split_map);
 int		texture_checker(t_map *map, char **split_map);
 
+/* texture checker utils */
+bool	is_whitespace(char c);
+void	skip_texture_whitespace(char **split_map, int i, int *j);
+bool	all_elements_found(t_map *map);
+bool	all_textures_found(t_map *map);
+
 /* movement */
 int		key_press_handler(int keysym, t_game *game);
+int		mouse_handler(int x, int y, t_game *game);
 void	movement(int keysym, t_game *game, t_player *player, char **map_arr);
 void	rotate(t_game *game, t_player *player, int keysym);
 

@@ -44,11 +44,13 @@ int	init_player_pos(t_map *map, t_player *player)
 			{
 				player->pos.x = col;
 				player->pos.y = row;
-				return (0);
+				map->player_count++;
 			}
 			col++;
 		}
 		row++;
 	}
-	return (-1);
+	if (map->player_count != 1)
+		return (print_err(PLAYER_ERR), -1);
+	return (0);
 }

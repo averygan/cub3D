@@ -12,11 +12,6 @@
 
 #include "cub3d.h"
 
-bool	is_whitespace(char c)
-{
-	return (c == ' ' || (c >= 8 && c <= 13));
-}
-
 /* returns a pointer to start of path after whitespace */
 char	*texture_whitespace(char *texture)
 {
@@ -41,9 +36,7 @@ int	texture_parser(t_map *map, char **split_map)
 	i = -1;
 	while (++i < TEXTURE_COUNT)
 	{
-		j = 0;
-		while (is_whitespace(split_map[i][j]))
-			j++;
+		skip_texture_whitespace(split_map, i, &j);
 		if (!ft_strncmp("NO ", &split_map[i][j], 3))
 			map->textures[E_NO] = texture_whitespace(&split_map[i][j + 2]);
 		else if (!ft_strncmp("SO ", &split_map[i][j], 3))
@@ -57,9 +50,7 @@ int	texture_parser(t_map *map, char **split_map)
 		else if (!ft_strncmp("C ", &split_map[i][j], 2))
 			map->textures[E_C] = texture_whitespace(&split_map[i][j + 1]);
 	}
-	if (!map->textures[E_NO] || !map->textures[E_SO] || \
-		!map->textures[E_EA] || !map->textures[E_WE] \
-		|| !map->textures[E_F] || !map->textures[E_C])
+	if (!all_textures_found(map))
 		return (print_err(TEXTURE_PATH_ERR), -1);
 	return (0);
 }
@@ -75,9 +66,7 @@ int	texture_checker(t_map *map, char **split_map)
 	i = -1;
 	while (++i < TEXTURE_COUNT)
 	{
-		j = 0;
-		while (is_whitespace(split_map[i][j]))
-			j++;
+		skip_texture_whitespace(split_map, i, &j);
 		if (!ft_strncmp("NO ", &split_map[i][j], 3))
 			map->valid_no++;
 		else if (!ft_strncmp("SO ", &split_map[i][j], 3))
@@ -93,10 +82,7 @@ int	texture_checker(t_map *map, char **split_map)
 		else
 			return (print_err(ELE_ERR), -1);
 	}
-	if (map->valid_no == 1 && map->valid_so == 1 && map->valid_ea == 1
-		&& map->valid_we == 1 && map->valid_f == 1 && map->valid_c == 1)
-		texture_parser(map, split_map);
-	else
+	if (!all_elements_found(map))
 		return (print_err(ELE_COUNT_ERR), -1);
-	return (0);
+	return (texture_parser(map, split_map));
 }
