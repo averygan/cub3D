@@ -40,4 +40,6 @@ int	main(int argc, char **argv)
 		}
 		end_game(&game, EXIT_FAILURE);
 	}
+	else
+		print_err(ARGC_ERR);
 }

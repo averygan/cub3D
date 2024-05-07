@@ -107,6 +107,7 @@ enum e_error
 	TEXTURE_PATH_ERR,
 	RGB_ERR,
 	PLAYER_ERR,
+	ARGC_ERR,
 };
 
 /* structs */

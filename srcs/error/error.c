@@ -32,6 +32,8 @@ void	print_err_message(int err)
 		ft_putstr_fd("Invalid RGB value.\n", 2);
 	else if (err == PLAYER_ERR)
 		ft_putstr_fd("Map must contain 1 player.\n", 2);
+	else if (err == ARGC_ERR)
+		ft_putstr_fd("./cub3D [file_name.cub]\n", 2);
 }
 
 void	print_err(int err)
