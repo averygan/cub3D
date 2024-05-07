@@ -227,7 +227,8 @@ bool	all_textures_found(t_map *map);
 int		key_press_handler(int keysym, t_game *game);
 int		mouse_handler(int x, int y, t_game *game);
 void	movement(int keysym, t_game *game, t_player *player, char **map_arr);
-void	left_right_movement(int keysym, t_game *game, t_player *player, char **map_arr);
+void	left_right_movement(int keysym, t_game *game, t_player *player, \
+	char **map_arr);
 void	rotate_left(t_game *game, t_player *player);
 void	rotate_right(t_game *game, t_player *player);
 

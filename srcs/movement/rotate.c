@@ -77,7 +77,8 @@ void	movement(int keysym, t_game *game, t_player *player, char **map_arr)
 
 /* function to move left and right
 based on player pos and plane * movement speed */
-void	left_right_movement(int keysym, t_game *game, t_player *player, char **map_arr)
+void	left_right_movement(int keysym, t_game *game, t_player *player, \
+	char **map_arr)
 {
 	if (keysym == D_KEY)
 	{

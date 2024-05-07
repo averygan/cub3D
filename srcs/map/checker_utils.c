@@ -49,6 +49,7 @@ void	map_height_width(t_map *map, char **map_arr)
 	}
 	map->map_height = height;
 	map->map_width = width;
+	map->tmp_map_width = map->map_width + 2;
 }
 
 /* function to replace spaces within map with tilde 
@@ -87,7 +88,6 @@ char	**dup_tmp_map(t_map *map)
 	if (!dup_arr)
 		return (NULL);
 	i = -1;
-	map->tmp_map_width = map->map_width + 2;
 	while (map->map_arr[++i])
 	{
 		j = 0;
