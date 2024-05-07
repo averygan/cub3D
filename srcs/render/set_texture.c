@@ -18,16 +18,16 @@ void	set_texture_pixel(t_game *game, t_ray *ray, t_wall *wall)
 	if (ray->side == 0)
 	{
 		if (ray->dir.x > 0)
-			wall->colors = game->walls[E_EA].colors;
-		else
 			wall->colors = game->walls[E_WE].colors;
+		else
+			wall->colors = game->walls[E_EA].colors;
 	}
 	else
 	{
 		if (ray->dir.y < 0)
-			wall->colors = game->walls[E_NO].colors;
-		else
 			wall->colors = game->walls[E_SO].colors;
+		else
+			wall->colors = game->walls[E_NO].colors;
 	}
 }
 
