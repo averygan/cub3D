@@ -18,6 +18,8 @@ int	parse_map(t_game *game)
 {
 	char	**split_map;
 
+	if (map_nl_checker(game->map.map, '\n') == -1)
+		return (print_err(MAP_SYNTAX_ERR), -1);
 	split_map = ft_split(game->map.map, '\n');
 	if (!split_map)
 		return (print_err(MEM_ERR), -1);

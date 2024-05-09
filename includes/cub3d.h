@@ -206,6 +206,7 @@ char	**dup_map_arr(char **map_arr);
 int		map_valid_syntax(char map_c);
 
 /* map checker */
+int		map_nl_checker(char *str, char c);
 int		map_checker(t_map *map, char **map_arr);
 
 /* checker utils */

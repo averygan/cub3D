@@ -36,7 +36,8 @@ MAP = init_map.c \
 	map_utils.c \
 	texture_checker.c \
 	texture_checker_utils.c \
-	checker_utils.c
+	checker_utils.c \
+	map_split.c
 MAP_SRCS = $(addprefix srcs/map/, $(MAP))
 
 INIT = init_window.c \

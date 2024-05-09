@@ -31,7 +31,7 @@ char	**split_rgb(char *str, int size)
 	int		i;
 	int		len;
 
-	arr = malloc((size + 1) * sizeof(char *));
+	arr = ft_calloc(size + 1, sizeof(char *));
 	if (!arr)
 		return (print_err(MEM_ERR), NULL);
 	i = -1;
